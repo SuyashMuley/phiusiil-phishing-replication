@@ -1,0 +1,27 @@
+dropped groups [usi,page]: 29 columns removed
+rows 235795, candidate features 21, legit share 0.572, order shuffle
+selected 18 of 21 features; URLSimilarityIndex kept: False
+Prequential run (Tables 5 and 6)
+  20000/235794 records, 25s
+  40000/235794 records, 51s
+  60000/235794 records, 77s
+  80000/235794 records, 103s
+  100000/235794 records, 128s
+  120000/235794 records, 155s
+  140000/235794 records, 181s
+  160000/235794 records, 207s
+  180000/235794 records, 233s
+  200000/235794 records, 260s
+  220000/235794 records, 286s
+
+Table 5 (ours vs paper_)
+      profile  accuracy  precision  sensitivity      f1     mcc  paper_accuracy  paper_precision  paper_sensitivity  paper_f1  paper_mcc
+ LowSecurity   0.93128    0.89290      0.99975 0.94331 0.86563         0.88258          0.82966            0.99999   0.90690    0.77595
+BestSecurity   0.98675    0.98456      0.99239 0.98846 0.97295         0.99239          0.98870            0.99810   0.99338    0.98449
+HighSecurity   0.96580    0.99599      0.94400 0.96930 0.93247         0.97409          0.99979            0.95490   0.97683    0.94877
+
+Table 6 (ours vs paper_; legit = positive)
+      profile     TP     TN    FP   FN  paper_TP  paper_TN  paper_FP  paper_FN
+ LowSecurity 134815  84775 16170   34    134849     73259     27686         1
+BestSecurity 133823  98847  2098 1026    134594     99406      1539       256
+HighSecurity 127298 100432   513 7551    128768    100918        27      6082

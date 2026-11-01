@@ -1,0 +1,15 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.pyc
+
+# Datasets and cached feature tables (large; see requirements/README for where to download)
+data/
+
+# Publisher PDF (do not redistribute); cite the DOI instead
+1-s2.0-S0167404823004558-main.pdf
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/

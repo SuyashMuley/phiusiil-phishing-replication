@@ -1,0 +1,63 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\usepackage{titlesec}
+
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries Project Proposal: Replicating and Critiquing PhiUSIIL Phishing URL Detection Under Dataset Shift}
+\end{center}
+\vspace{-4pt}
+
+\textbf{Primary Paper:} Prasad and Chandra, \emph{PhiUSIIL: A diverse security profile empowered phishing URL detection framework based on similarity index and incremental learning} (Computers \& Security, 2024)\\
+\textbf{Project Track:} Replication and Critique
+
+\section{Objective}
+I plan to reproduce the central result of the PhiUSIIL paper, a phishing URL detector reaching about 99\% performance on its own dataset using engineered URL and page-content features, and test whether it holds under dataset shift. My goal is to verify the reported result, identify what drives it, measure how classical models degrade on independently collected data, and test whether training-data diversity helps more than a more sophisticated classifier.
+
+\section{Reproduction and Related Work}
+I will reproduce the paper's pipeline on the released PhiUSIIL data: engineered features, including the URL similarity index, with incremental learners trained in sequential batches (\texttt{partial\_fit}). I will report how my numbers compare with the published ones and explain any gap.
+
+For related work, I will compare against Ahamed et al.\ (2026), who test LR, XGBoost, CharCNN, and BERT on PhiUSIIL and see accuracy fall to 0.73--0.87 on a cross-source test; Misiek and Hyla (2026), who validate XGBoost across three datasets including GramBeddings and PhiUSIIL (77.8\% average accuracy); and Rashid et al.\ (2024), who show domain adaptation recovers only about 0.06 F1 under cross-dataset shift. I will check that these are not in the target paper's reference list.
+
+\section{Datasets and Extension}
+\begin{center}
+\begin{tabular}{@{}llp{4.6in}@{}}
+\toprule
+\textbf{Dataset} & \textbf{Samples} & \textbf{Purpose} \\
+\midrule
+PhiUSIIL & 235,795 & Reproduction; training source \\
+GramBeddings & 800,000 & Independent source; legitimate URLs include deep links \\
+PhishTank (Oct.\ 2026) & 76,451 & Phishing-only check on current URLs (no benign class) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-4pt}
+For my extension, I will use one URL-only feature extractor (22 lexical features) for every dataset and train LR, random forest, gradient boosting, and an MLP on PhiUSIIL alone, GramBeddings alone, and both combined at matched training size. I will test on held-out, domain-disjoint data not seen in training, with a character n-gram model as a stronger URL-only reference. Risk: a third independent two-class source is not yet secured; the fallback is a domain-disjoint GramBeddings holdout plus the phishing-only PhishTank check.
+
+\section{Evaluation and Critique}
+I will report ROC-AUC, PR-AUC, and false-positive rate at 95\% recall over multiple random seeds, using registered-domain-disjoint splits. I avoid accuracy and F1 at a fixed 0.5 threshold, because on external data my models collapse to predicting every URL as phishing. I will compare my results with the published findings and trace discrepancies to features, splits, or implementation. The critique will focus on label leakage through the similarity index, the homepage artifact in the benign class, and the limits of what diversity can fix.
+
+\section{Feasibility and Timeline}
+A first pass is done (single seed, untuned). The rule \texttt{URLSimilarityIndex} $<100 \Rightarrow$ phishing gets 99.67\% accuracy; every legitimate PhiUSIIL URL is a bare \texttt{https://www} homepage; and URL-only models reach AUROC 0.996--0.999 in distribution but only 0.52--0.78 on GramBeddings (0.76--0.90 in the reverse direction). Everything is CPU-feasible with Python, scikit-learn, and pandas. I aim to finish the reproduction and baselines before the November 10 checkpoint, complete the diversity experiments by late November, and independently write the final report by December 8.
+
+\section*{References}
+\vspace{-3pt}
+{\small
+[1] Prasad and Chandra (2024). \emph{PhiUSIIL: A diverse security profile empowered phishing URL detection framework based on similarity index and incremental learning}. Computers \& Security 136. \href{https://doi.org/10.1016/j.cose.2023.103545}{[Paper]}\\[0pt]
+[2] Ahamed et al.\ (2026). \emph{An integrated evaluation protocol for adversarial robustness, generalization, and explanation stability in URL-based phishing detection}. Frontiers in Computer Science. \href{https://doi.org/10.3389/fcomp.2026.1834407}{[Paper]}\\[0pt]
+[3] Misiek and Hyla (2026). \emph{XGBoost-Based URL Phishing Detection Method With Cross-Dataset Validation}. IEEE Access. \href{https://doi.org/10.1109/ACCESS.2026.3672690}{[Paper]}\\[0pt]
+[4] Rashid et al.\ (2024). \emph{Phishing URL detection generalisation using Unsupervised Domain Adaptation}. Computer Networks 245. \href{https://doi.org/10.1016/j.comnet.2024.110398}{[Paper]}
+}
+
+\end{document}

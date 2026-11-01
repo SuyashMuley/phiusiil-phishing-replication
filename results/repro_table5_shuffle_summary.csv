@@ -1,0 +1,6 @@
+,accuracy,accuracy,precision,precision,sensitivity,sensitivity,f1,f1,mcc,mcc
+,mean,std,mean,std,mean,std,mean,std,mean,std
+profile,,,,,,,,,,
+BestSecurity,0.99147,0.00024,0.9885,0.00034,0.99668,0.00022,0.99258,0.00021,0.98261,0.0005
+HighSecurity,0.97164,0.00063,0.99983,6e-05,0.95057,0.00107,0.97458,0.00058,0.9441,0.0012
+LowSecurity,0.8978,0.01177,0.84859,0.0146,0.99998,1e-05,0.91804,0.00861,0.80371,0.02147

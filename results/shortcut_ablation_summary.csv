@@ -1,0 +1,17 @@
+,,,auroc,auroc,acc,acc,f1,f1
+,,,mean,std,mean,std,mean,std
+split,features,n_feat,,,,,,
+domain-disjoint,USI_only,1,0.9927,0.0036,0.994,0.0021,0.9927,0.0036
+domain-disjoint,all,50,1.0,0.0,1.0,0.0,1.0,0.0
+domain-disjoint,no_USI,49,1.0,0.0,1.0,0.0,0.9999,0.0
+domain-disjoint,no_USI_no_page,21,0.999,0.0,0.9971,0.0005,0.9966,0.0006
+domain-disjoint,no_USI_no_page_no_derived,18,0.9986,0.0,0.9979,0.0003,0.9975,0.0001
+domain-disjoint,no_page,22,0.9998,0.0001,0.9998,0.0,0.9998,0.0
+domain-disjoint,page_only,28,0.9999,0.0,0.9977,0.0002,0.9974,0.0003
+random,USI_only,1,0.9946,0.0005,0.9954,0.0005,0.9946,0.0005
+random,all,50,1.0,0.0,1.0,0.0,1.0,0.0
+random,no_USI,49,1.0,0.0,0.9999,0.0,0.9999,0.0
+random,no_USI_no_page,21,0.9988,0.0002,0.9971,0.0003,0.9966,0.0004
+random,no_USI_no_page_no_derived,18,0.9985,0.0,0.9976,0.0,0.9972,0.0001
+random,no_page,22,0.9999,0.0,0.9998,0.0,0.9998,0.0
+random,page_only,28,1.0,0.0,0.9984,0.0001,0.9982,0.0001

@@ -1,0 +1,117 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\usepackage{titlesec}
+
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\pagestyle{plain}
+\newcommand{\tsz}{\footnotesize}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries Checkpoint Report: Replicating and Critiquing PhiUSIIL Phishing URL Detection Under Dataset Shift}\\[2pt]
+Project track: Replication and Critique \quad Checkpoint: November 10, 2026
+\end{center}
+
+\section{Summary of progress}
+I reproduced the central result of Prasad and Chandra (2024) and then tested what drives it. Three findings so far.
+(1) The reported 99.2\% is reproduced: my BestSecurity accuracy is 0.9915 (mean of four shuffled orders) and 0.9934 in file order, against 0.9924 published.
+(2) The URL similarity index is not label leakage. It uses no labels, but the legitimate class was drawn from the same list the index is matched against. It is also not necessary: URL form and page-content artifacts separate the classes without it, and 21 URL-only columns still give 0.987 accuracy in the paper's own protocol.
+(3) URL-only models that reach AUROC 0.998 in distribution fall to 0.61--0.78 on GramBeddings, and a threshold fixed on source validation data does not transfer in either direction.
+
+\section{Response to proposal feedback}
+\begin{center}
+\tsz
+\begin{tabular}{@{}p{2.2in}p{4.7in}@{}}
+\toprule
+\textbf{Feedback} & \textbf{What I did} \\
+\midrule
+Is the similarity score using the answer, or a dataset shortcut? &
+Read the paper's definition (Sec.\ 4.1) and tested it on the released data (Section 4). Conclusion: a construction shortcut, not leakage. I now use ``shortcut'' throughout. \\
+Keep reproduction separate from URL-only transfer; control size and class mix. &
+Two separate parts with separate tables (Sections 3 and 5). In Part B every source variant uses the same pool size (11,666 rows) and a 50\% phishing share, and I log the class and URL-type mix of every set. PhiUSIIL has no deep-link legitimate URLs, so URL type cannot be matched for it; targets are sliced by URL type instead. \\
+How does a validation-fixed threshold transfer? &
+The 95\%-recall threshold is chosen on source validation only and applied unchanged. I report the realized recall and FPR on every target (Section 5). \\
+PhishTank supports recall only; bound the model list. &
+PhishTank is scored by recall only, and I pair it with the FPR the same threshold gives on a legitimate target. Models are capped at LR, random forest, gradient boosting, MLP, and a character n-gram reference. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Part A: reproduction of the paper's pipeline}
+I followed the paper's protocol (Sec.\ 4.2.2): initialize on the first record, then for every record predict and then \texttt{partial\_fit}, with BernoulliNB, PassiveAggressive and SGD using the paper's tuned hyperparameters and three voting profiles. This is a prequential test, not a held-out test. The paper's row order is not stated, so I report file order and four shuffled orders.
+\begin{center}
+\tsz
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{Accuracy} & \multicolumn{2}{c}{F1} & \multicolumn{2}{c}{Published} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Profile & file order & shuffled (4) & file order & shuffled (4) & accuracy & F1 \\
+\midrule
+LowSecurity  & 0.8944 & 0.8978 (0.012) & 0.9155 & 0.9180 (0.009) & 0.8826 & 0.9069 \\
+BestSecurity & 0.9934 & 0.9915 (0.0002) & 0.9942 & 0.9926 (0.0002) & 0.9924 & 0.9934 \\
+HighSecurity & 0.9730 & 0.9716 (0.0006) & 0.9758 & 0.9746 (0.0006) & 0.9741 & 0.9768 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The pre-training experiment (Table 7 of the paper) matches within a mean absolute gap of 0.0004 (sequential pre-training split) and 0.0005 (random split) across the nine split ratios; the paper does not say which split it used. The paper's batch baselines (its Table 3) also reproduce on a held-out stratified 80/20 split: BernoulliNB 0.988 vs 0.986, MultinomialNB 0.673 vs 0.690, Perceptron 0.980 vs 0.980; tree and boosting models are at 1.0000 on the 43 selected features (published 0.9987--0.9999). Confusion counts differ by a few hundred rows (BestSecurity FP 1,564 vs 1,539 published, FN 447 vs 256).
+
+\textbf{Deviations.} LightGBM, XGBoost and CatBoost are not installed, so sklearn gradient boosting and extra trees stand in for the paper's feature-importance ensemble, and HistGradientBoosting stands in for its boosting rows; Voting and Stacking are not run. Mutual information is estimated on a 30k-row subsample, and features are not scaled for the incremental learners. The paper does not report its final feature count; I keep 43 of 50 candidates.
+
+\section{The similarity index: shortcut, not leakage}
+The paper defines the index as a character-match score between a URL and the Open PageRank top-10M legitimate list (Sec.\ 4.1), and collects the legitimate URLs from that same list (Sec.\ 3.1). So every listed legitimate URL scores exactly 100 by construction, using no labels. On the released data all 134,850 legitimate URLs score 100 against 786 of 100,945 phishing URLs, and the number of phishing URLs scoring in $[80,100)$ is 7,341, exactly the paper's count.
+\begin{center}
+\tsz
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Check & Result & \\
+\midrule
+Rule: index $<100\Rightarrow$ phishing & accuracy 0.9967 & no labels used \\
+Rule: not an \texttt{https://www.}$\langle$host$\rangle$ homepage $\Rightarrow$ phishing & accuracy 0.9956 & no list, no labels \\
+Phishing pages with zero images (legitimate) & 83.4\% (1.0\%) & failed-capture pattern \\
+Gradient boosting, all 50 features / without the index (domain-disjoint) & AUROC 1.0000 / 1.0000 & index redundant \\
+Same, without index and page content (21 URL columns) & AUROC 0.9990, acc.\ 0.9971 & URL form alone \\
+Paper's pipeline (BestSecurity), shuffled: all / no index / no page content / neither & acc.\ 0.9915 / 0.9914 / 0.9726 / 0.9870 & \\
+\bottomrule
+\end{tabular}
+\end{center}
+The paper's headline number therefore does not depend on the index, and 21 URL-only columns reach 0.987 even in the incremental protocol; URL-only batch models reach 0.995--0.998 on a held-out split (AdaBoost 0.990; the Naive Bayes models are lower). The data are separable by at least three redundant artifacts, so a high in-distribution score is not evidence of generalization. \textbf{Limits.} The Tranco top-1M membership check was inconclusive (33\% of legitimate registered domains appear, as expected for a 1M list against a 10M list), so ``legitimate URLs come from the list'' rests on the paper's text. The index and the homepage form are perfectly confounded for legitimate URLs, so I cannot say which a model uses.
+
+\section{Part B: URL-only transfer with matched size and fixed thresholds}
+\textbf{Protocol.} Features are 22 URL-only lexical features, with no index and no page content. Each source variant (PhiUSIIL, GramBeddings, GramBeddings homepage-only) is sampled to 11,666 rows at 50\% phishing and split 70/15/15 with no shared registered domain (about 8k training rows). The threshold gives 95\% recall on source validation and is applied unchanged to each target; target rows whose URL or domain appear in training are removed. Models: LR, random forest, HistGradientBoosting, MLP, and a character 2--4-gram TF-IDF logistic regression. Five seeds; ranges below are over models, means over seeds.
+\begin{center}
+\tsz
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Train $\to$ target & & AUROC & Recall & FPR \\
+\midrule
+PhiUSIIL $\to$ PhiUSIIL test & & 1.00 & 0.93--0.94 & 0.00 \\
+PhiUSIIL $\to$ GramBeddings (all) & & 0.61--0.78 & 0.95--0.99 & 0.66--0.95 \\
+PhiUSIIL $\to$ GramBeddings (homepage only; four feature models) & & 0.65--0.80 & 0.94--0.96 & 0.66--0.79 \\
+GramBeddings $\to$ GramBeddings test & & 0.91--0.97 & 0.93--0.95 & 0.15--0.47 \\
+GramBeddings $\to$ PhiUSIIL (all) & & 0.83--0.92 & 0.50--0.58 & 0.00--0.02 \\
+GramBeddings homepage-only $\to$ PhiUSIIL (homepage slice; four feature models) & & 0.74--0.82 & 0.34--0.39 & 0.00--0.01 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Findings.} (1) The validation-fixed threshold does not transfer, and it fails in opposite directions: PhiUSIIL-trained models keep recall but flag 66--95\% of legitimate GramBeddings URLs, while GramBeddings-trained models keep FPR near zero and lose almost half the phishing on PhiUSIIL. Validation recall is 0.95 in every case, so the failure is invisible without target data. (2) The homepage artifact is not the whole story: PhiUSIIL-trained models still fail on homepage-only GramBeddings, and training on GramBeddings homepages does not rescue transfer to PhiUSIIL. (3) PhishTank recall alone is misleading: PhiUSIIL-trained feature models reach 0.94--0.97 recall on PhishTank, but the same threshold flags most legitimate GramBeddings URLs. GramBeddings-trained models reach 0.68--0.87. (4) The character n-gram model is the strongest on GramBeddings (in distribution AUROC 0.97) and in the GramBeddings $\to$ PhiUSIIL direction (0.92), but not PhiUSIIL $\to$ GramBeddings (0.73), and it does not fix the threshold. (5) Removing the URL scheme (\texttt{is\_https} dropped, scheme stripped for n-grams) makes PhiUSIIL-trained thresholds flag essentially everything on GramBeddings (recall 1.00, FPR 0.97--0.99) while the n-gram AUROC rises from 0.73 to 0.87, so AUROC and the fixed-threshold operating point can disagree. Part of the GramBeddings $\to$ PhiUSIIL ranking success comes from \texttt{is\_https}, since every PhiUSIIL legitimate URL is https.
+
+\textbf{Limits.} Training sizes match only to about 10\% because domain grouping makes uneven splits. The target mixes differ (phishing share 0.29--0.48, except the phishing-only PhiUSIIL deep-link slice), so precision is not compared across rows; AUROC, recall and FPR are. GramBeddings is a cached 100k sample. \texttt{has\_www} is a second URL-form shortcut that I have not ablated. The n-gram model is untuned, and the MLP and no-scheme LR/n-gram runs vary strongly across seeds.
+
+\section{Remaining plan}
+\begin{tabular}{@{}p{1.1in}p{5.8in}@{}}
+\textbf{By Nov.\ 15} & Decide whether a third independent two-class source is realistic; otherwise keep the domain-disjoint GramBeddings holdout plus the PhishTank recall check. \\
+\textbf{Late Nov.} & Diversity experiment: train on PhiUSIIL alone, GramBeddings alone, and both combined at matched total size, and compare with the n-gram reference. Compare with Ahamed et al.\ (2026), Misiek and Hyla (2026) and Rashid et al.\ (2024), and confirm they are not in the target paper's reference list. Optional ablations: \texttt{has\_www}, all 800k GramBeddings rows. \\
+\textbf{Dec.\ 8} & Final report, written independently. \\
+\end{tabular}
+
+\textbf{Risks.} A third source may not be available. PhiUSIIL cannot supply deep-link legitimate URLs, which limits what matched training can show. Domain-disjoint filtering removes large parts of PhishTank. Code, logs and all result tables are in the project folder (\texttt{plan.md}, \texttt{MD/project\_log.md}, \texttt{results/}).
+
+\end{document}

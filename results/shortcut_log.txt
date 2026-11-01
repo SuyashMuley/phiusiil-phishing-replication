@@ -1,0 +1,102 @@
+== A. USI bands by class (rows)
+band   80-100    <80    =100
+phish                       
+legit       0      0  134850
+phish    7341  92818     786 
+
+phishing with 80<=USI<100: 7341  (paper Sec 5.4 reports 7,341 caught by this rule)
+
+== B. share whose registered domain is in Tranco top-1M (lower bound on Open PageRank top-10M)
+                  mean    size
+phish band                    
+legit =100    0.331353  134850
+phish 80-100  0.081324    7341
+      <80     0.483010   92818
+      =100    0.274809     786 
+
+== C. sample of phishing URLs with 80<=USI<100
+                                       URL  URLSimilarityIndex  in_tranco
+                    http://www.mmtimes.org           80.440771      False
+                   http://www.anakhita.com           82.905983      False
+                    http://www.colemanl.cf           83.746556      False
+https://my-site-102784-102625.square.site/           84.783666       True
+                   http://www.bombtire.com           83.333333      False
+                  http://www.adbullion.com           91.462384      False
+               http://www.servicebox.co.za           82.123162      False
+                    http://www.proxite.net           82.093664      False
+              http://www.beyondthebold.com           88.773549      False
+                  http://www.luxurytds.com           84.784446      False
+                 https://home.ciqicup.com/           81.112132      False
+                  http://www.innograph.com           91.631445      False
+                    http://www.bigdhon.com           81.542700      False
+                      http://www.cvard.com           87.901235      False
+                  http://www.game-host.org           93.322063       True
+                     http://www.inopra.com           82.369146      False
+                    http://www.garnier.red           91.636364      False
+                  https://binarypiano.com/           80.222222      False
+                    http://www.cyptian.com           81.542700      False
+                    http://www.bcskntc.com           80.716253      False
+                http://www.api.xmrpool.net           94.111111       True
+                  http://www.asanvisas.com           83.262891      False
+                http://www.mindflexlab.com           94.111111      False
+         http://www.altcomconstruction.com           80.622552      False
+                   http://www.jtech.com.vn           82.478632      False 
+
+share with registered domain in Tranco (abuse of a real domain, not a typosquat): 0.081
+share that are bare homepages (no path): 0.997 
+
+== D. single-feature AUROC (phish=1), top 12 by max(auc, 1-auc)
+                               auroc  strength
+URLSimilarityIndex          0.003893  0.996107
+LineOfCode                  0.009745  0.990255
+NoOfExternalRef             0.011979  0.988021
+NoOfImage                   0.020365  0.979635
+NoOfSelfRef                 0.027544  0.972456
+NoOfJS                      0.029177  0.970823
+NoOfCSS                     0.042404  0.957596
+HasSocialNet                0.105253  0.894747
+HasCopyrightInfo            0.124550  0.875450
+HasDescription              0.153765  0.846235
+NoOfOtherSpecialCharsInURL  0.823783  0.823783
+LargestLineLength           0.183658  0.816342 
+
+== F. rule baselines
+                                      rule      acc       f1  legit_flagged
+                          USI<100 -> phish 0.996667 0.996092            0.0
+not(https://www.<host>/ homepage) -> phish 0.995598 0.994832            0.0
+                         has path -> phish 0.693543 0.442555            0.0 
+
+done seed 0 random
+done seed 0 domain-disjoint
+done seed 1 random
+done seed 1 domain-disjoint
+done seed 2 random
+done seed 2 domain-disjoint
+
+== E. ablation, HistGB, mean/std over seeds (0, 1, 2)
+                                                   auroc             acc              f1        
+                                                    mean     std    mean     std    mean     std
+split           features                  n_feat                                                
+domain-disjoint USI_only                  1       0.9927  0.0036  0.9940  0.0021  0.9927  0.0036
+                all                       50      1.0000  0.0000  1.0000  0.0000  1.0000  0.0000
+                no_USI                    49      1.0000  0.0000  1.0000  0.0000  0.9999  0.0000
+                no_USI_no_page            21      0.9990  0.0000  0.9971  0.0005  0.9966  0.0006
+                no_USI_no_page_no_derived 18      0.9986  0.0000  0.9979  0.0003  0.9975  0.0001
+                no_page                   22      0.9998  0.0001  0.9998  0.0000  0.9998  0.0000
+                page_only                 28      0.9999  0.0000  0.9977  0.0002  0.9974  0.0003
+random          USI_only                  1       0.9946  0.0005  0.9954  0.0005  0.9946  0.0005
+                all                       50      1.0000  0.0000  1.0000  0.0000  1.0000  0.0000
+                no_USI                    49      1.0000  0.0000  0.9999  0.0000  0.9999  0.0000
+                no_USI_no_page            21      0.9988  0.0002  0.9971  0.0003  0.9966  0.0004
+                no_USI_no_page_no_derived 18      0.9985  0.0000  0.9976  0.0000  0.9972  0.0001
+                no_page                   22      0.9999  0.0000  0.9998  0.0000  0.9998  0.0000
+                page_only                 28      1.0000  0.0000  0.9984  0.0001  0.9982  0.0001
+       NoOfImage  LineOfCode  NoOfJS  NoOfExternalRef
+c                                                    
+legit      0.010         0.0   0.011            0.003
+phish      0.834         0.0   0.771            0.547
+       LineOfCode  NoOfImage
+c                           
+legit      1105.0       25.0
+phish        12.0        0.0
+1.0 0.0 0.36468373866957254

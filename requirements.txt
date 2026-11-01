@@ -1,0 +1,6 @@
+# Direct dependencies of scripts/ (versions used for the reported results; Python 3.14)
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.18.1
+tldextract==5.3.2

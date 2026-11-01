@@ -1,0 +1,86 @@
+rows 235795, candidate features 50, legit share 0.572, order file
+selected 43 of 50 features; URLSimilarityIndex kept: True
+Prequential run (Tables 5 and 6)
+  20000/235794 records, 15s
+  40000/235794 records, 30s
+  60000/235794 records, 46s
+  80000/235794 records, 61s
+  100000/235794 records, 76s
+  120000/235794 records, 92s
+  140000/235794 records, 107s
+  160000/235794 records, 123s
+  180000/235794 records, 139s
+  200000/235794 records, 154s
+  220000/235794 records, 170s
+
+Table 5 (ours vs paper_)
+      profile  accuracy  precision  sensitivity      f1     mcc  paper_accuracy  paper_precision  paper_sensitivity  paper_f1  paper_mcc
+ LowSecurity   0.89439    0.84413      0.99998 0.91547 0.79742         0.88258          0.82966            0.99999   0.90690    0.77595
+BestSecurity   0.99335    0.99110      0.99733 0.99420 0.98643         0.99239          0.98870            0.99810   0.99338    0.98449
+HighSecurity   0.97300    0.99994      0.95284 0.97582 0.94670         0.97409          0.99979            0.95490   0.97683    0.94877
+
+Table 6 (ours vs paper_; legit = positive)
+      profile     TP     TN    FP   FN  paper_TP  paper_TN  paper_FP  paper_FN
+ LowSecurity 134846  76046 24899    3    134849     73259     27686         1
+BestSecurity 134489  99737  1208  360    134594     99406      1539       256
+HighSecurity 128490 100937     8 6359    128768    100918        27      6082
+
+Table 7, pre-train split = random
+  20000/212215 records, 16s
+  40000/212215 records, 32s
+  60000/212215 records, 48s
+  80000/212215 records, 64s
+  100000/212215 records, 80s
+  120000/212215 records, 96s
+  140000/212215 records, 112s
+  160000/212215 records, 129s
+  180000/212215 records, 145s
+  200000/212215 records, 161s
+  0.1: acc 0.99622 (paper 0.99573)
+  20000/188636 records, 17s
+  40000/188636 records, 34s
+  60000/188636 records, 52s
+  80000/188636 records, 70s
+  100000/188636 records, 88s
+  120000/188636 records, 106s
+  140000/188636 records, 124s
+  160000/188636 records, 141s
+  180000/188636 records, 159s
+  0.2: acc 0.99709 (paper 0.99593)
+  20000/165057 records, 20s
+  40000/165057 records, 40s
+  60000/165057 records, 60s
+  80000/165057 records, 80s
+  100000/165057 records, 97s
+  120000/165057 records, 116s
+  140000/165057 records, 136s
+  160000/165057 records, 153s
+  0.3: acc 0.99747 (paper 0.99637)
+  20000/141477 records, 18s
+  40000/141477 records, 36s
+  60000/141477 records, 54s
+  80000/141477 records, 72s
+  100000/141477 records, 90s
+  120000/141477 records, 107s
+  140000/141477 records, 125s
+  0.4: acc 0.99721 (paper 0.99708)
+  20000/117897 records, 17s
+  40000/117897 records, 35s
+  60000/117897 records, 52s
+  80000/117897 records, 70s
+  100000/117897 records, 87s
+  0.5: acc 0.99759 (paper 0.99725)
+  20000/94318 records, 17s
+  40000/94318 records, 35s
+  60000/94318 records, 52s
+  80000/94318 records, 69s
+  0.6: acc 0.99799 (paper 0.99751)
+  20000/70739 records, 18s
+  40000/70739 records, 35s
+  60000/70739 records, 53s
+  0.7: acc 0.99808 (paper 0.99755)
+  20000/47159 records, 18s
+  40000/47159 records, 40s
+  0.8: acc 0.99796 (paper 0.99763)
+  20000/23579 records, 17s
+  0.9: acc 0.99796 (paper 0.99792)

@@ -204,3 +204,6 @@ Script 07 gained a third feature set, `no_scheme_no_www` (drops `is_https` and `
 - RF and HistGB still reach AUROC 1.00 on PhiUSIIL without scheme and `www`, so my earlier guess that trees recover through `has_www` is refuted (other URL-form columns carry it).
 - `has_www` carries real signal on GramBeddings: in-distribution AUROC drops 0.02-0.04 without it.
 - PhiUSIIL-trained transfer gets no better; GramBeddings-trained LR and NGRAM flag more PhiUSIIL legit URLs (FPR 0.02 -> 0.30 and 0.00 -> 0.16). The fixed-threshold conclusion is unchanged.
+
+## 17. Decision (2026-11-01)
+Full 800k GramBeddings featurization and Part B rerun deferred until after the 2026-11-10 checkpoint; the checkpoint states the 100k-sample caveat instead.

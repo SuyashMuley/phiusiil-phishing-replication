@@ -384,7 +384,7 @@ Caveats: means over 5 seeds only; MLP is noisy, so I only quote effects well abo
 - [x] Scheme-free ablation (`is_https` dropped / scheme stripped) in script 07.
 - [x] Char n-gram reference model in script 07.
 - [x] `no_scheme_no_www` variant: trees do not rely on `has_www`; see the block above.
-- [ ] Optional: featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample.
+- [ ] Deferred until after the checkpoint (decision 2026-11-01): featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample. Featurizing takes about 20 s; the Part B rerun is estimated at 30-60 min (not measured) and changes every Part B number, so redo tables, report and README together. Fold it into the diversity experiment.
 
 ### 3.4 Code and housekeeping
 - [ ] New scripts, numbered after the existing ones (05 onward), one per piece: `05_reproduce_phiusiil.py`, `06_shortcut_ablation.py`, `07_transfer_matched.py`, with a shared seed and split helper in `common.py`.

@@ -1,174 +1,249 @@
 
 ## source test
-              variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-         PhiUSIIL/all       all     LR        5 1.00±0.00 1.00±0.00 0.94±0.02 0.00±0.00  0.95±0.00
-         PhiUSIIL/all       all     RF        5 1.00±0.00 1.00±0.00 0.94±0.02 0.00±0.00  0.95±0.00
-         PhiUSIIL/all       all HistGB        5 1.00±0.00 1.00±0.00 0.93±0.03 0.00±0.00  0.95±0.00
-         PhiUSIIL/all       all    MLP        5 1.00±0.00 1.00±0.00 0.94±0.03 0.00±0.00  0.95±0.00
-         PhiUSIIL/all       all  NGRAM        5 1.00±0.00 1.00±0.00 0.93±0.01 0.00±0.00  0.95±0.00
-         PhiUSIIL/all no_scheme     LR        5 0.93±0.04 0.93±0.04 0.94±0.02 0.41±0.22  0.95±0.00
-         PhiUSIIL/all no_scheme     RF        5 0.99±0.00 0.99±0.00 0.94±0.03 0.02±0.01  0.95±0.00
-         PhiUSIIL/all no_scheme HistGB        5 1.00±0.00 1.00±0.00 0.94±0.03 0.00±0.00  0.95±0.00
-         PhiUSIIL/all no_scheme    MLP        5 0.96±0.06 0.96±0.06 0.94±0.02 0.26±0.35  0.95±0.00
-         PhiUSIIL/all no_scheme  NGRAM        5 0.91±0.01 0.92±0.02 0.94±0.03 0.57±0.11  0.95±0.00
-     GramBeddings/all       all     LR        5 0.91±0.01 0.92±0.01 0.95±0.01 0.47±0.03  0.95±0.00
-     GramBeddings/all       all     RF        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.06  0.95±0.00
-     GramBeddings/all       all HistGB        5 0.94±0.01 0.95±0.01 0.94±0.01 0.29±0.04  0.95±0.00
-     GramBeddings/all       all    MLP        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.05  0.95±0.00
-     GramBeddings/all       all  NGRAM        5 0.97±0.01 0.97±0.01 0.93±0.02 0.15±0.04  0.95±0.00
-     GramBeddings/all no_scheme     LR        5 0.91±0.01 0.92±0.01 0.95±0.01 0.46±0.03  0.95±0.00
-     GramBeddings/all no_scheme     RF        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.06  0.95±0.00
-     GramBeddings/all no_scheme HistGB        5 0.94±0.01 0.95±0.01 0.94±0.01 0.30±0.04  0.95±0.00
-     GramBeddings/all no_scheme    MLP        5 0.94±0.01 0.94±0.01 0.94±0.02 0.34±0.03  0.95±0.00
-     GramBeddings/all no_scheme  NGRAM        5 0.97±0.00 0.97±0.01 0.94±0.02 0.16±0.06  0.95±0.00
-GramBeddings/homepage       all     LR        5 0.95±0.02 0.95±0.04 0.96±0.01 0.29±0.03  0.95±0.00
-GramBeddings/homepage       all     RF        5 0.94±0.02 0.94±0.04 0.95±0.02 0.33±0.03  0.95±0.00
-GramBeddings/homepage       all HistGB        5 0.95±0.02 0.95±0.04 0.96±0.01 0.30±0.04  0.95±0.00
-GramBeddings/homepage       all    MLP        5 0.96±0.02 0.95±0.03 0.97±0.01 0.29±0.05  0.95±0.00
-GramBeddings/homepage       all  NGRAM        5 0.97±0.01 0.98±0.01 0.96±0.02 0.21±0.05  0.95±0.00
-GramBeddings/homepage no_scheme     LR        5 0.95±0.02 0.95±0.04 0.96±0.01 0.29±0.02  0.95±0.00
-GramBeddings/homepage no_scheme     RF        5 0.94±0.02 0.94±0.04 0.95±0.02 0.34±0.04  0.95±0.00
-GramBeddings/homepage no_scheme HistGB        5 0.95±0.02 0.95±0.04 0.96±0.02 0.30±0.03  0.95±0.00
-GramBeddings/homepage no_scheme    MLP        5 0.96±0.02 0.96±0.03 0.97±0.01 0.28±0.02  0.95±0.00
-GramBeddings/homepage no_scheme  NGRAM        5 0.97±0.01 0.97±0.01 0.96±0.03 0.23±0.06  0.95±0.00
+              variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+         PhiUSIIL/all              all     LR        5 1.00±0.00 1.00±0.00 0.94±0.02 0.00±0.00  0.95±0.00
+         PhiUSIIL/all              all     RF        5 1.00±0.00 1.00±0.00 0.94±0.02 0.00±0.00  0.95±0.00
+         PhiUSIIL/all              all HistGB        5 1.00±0.00 1.00±0.00 0.93±0.03 0.00±0.00  0.95±0.00
+         PhiUSIIL/all              all    MLP        5 1.00±0.00 1.00±0.00 0.94±0.03 0.00±0.00  0.95±0.00
+         PhiUSIIL/all              all  NGRAM        5 1.00±0.00 1.00±0.00 0.93±0.01 0.00±0.00  0.95±0.00
+         PhiUSIIL/all        no_scheme     LR        5 0.93±0.04 0.93±0.04 0.94±0.02 0.41±0.22  0.95±0.00
+         PhiUSIIL/all        no_scheme     RF        5 0.99±0.00 0.99±0.00 0.94±0.03 0.02±0.01  0.95±0.00
+         PhiUSIIL/all        no_scheme HistGB        5 1.00±0.00 1.00±0.00 0.94±0.03 0.00±0.00  0.95±0.00
+         PhiUSIIL/all        no_scheme    MLP        5 0.96±0.06 0.96±0.06 0.94±0.02 0.26±0.35  0.95±0.00
+         PhiUSIIL/all        no_scheme  NGRAM        5 0.91±0.01 0.92±0.02 0.94±0.03 0.57±0.11  0.95±0.00
+     GramBeddings/all              all     LR        5 0.91±0.01 0.92±0.01 0.95±0.01 0.47±0.03  0.95±0.00
+     GramBeddings/all              all     RF        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.06  0.95±0.00
+     GramBeddings/all              all HistGB        5 0.94±0.01 0.95±0.01 0.94±0.01 0.29±0.04  0.95±0.00
+     GramBeddings/all              all    MLP        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.05  0.95±0.00
+     GramBeddings/all              all  NGRAM        5 0.97±0.01 0.97±0.01 0.93±0.02 0.15±0.04  0.95±0.00
+     GramBeddings/all        no_scheme     LR        5 0.91±0.01 0.92±0.01 0.95±0.01 0.46±0.03  0.95±0.00
+     GramBeddings/all        no_scheme     RF        5 0.94±0.01 0.94±0.01 0.95±0.01 0.34±0.06  0.95±0.00
+     GramBeddings/all        no_scheme HistGB        5 0.94±0.01 0.95±0.01 0.94±0.01 0.30±0.04  0.95±0.00
+     GramBeddings/all        no_scheme    MLP        5 0.94±0.01 0.94±0.01 0.94±0.02 0.34±0.03  0.95±0.00
+     GramBeddings/all        no_scheme  NGRAM        5 0.97±0.00 0.97±0.01 0.94±0.02 0.16±0.06  0.95±0.00
+GramBeddings/homepage              all     LR        5 0.95±0.02 0.95±0.04 0.96±0.01 0.29±0.03  0.95±0.00
+GramBeddings/homepage              all     RF        5 0.94±0.02 0.94±0.04 0.95±0.02 0.33±0.03  0.95±0.00
+GramBeddings/homepage              all HistGB        5 0.95±0.02 0.95±0.04 0.96±0.01 0.30±0.04  0.95±0.00
+GramBeddings/homepage              all    MLP        5 0.96±0.02 0.95±0.03 0.97±0.01 0.29±0.05  0.95±0.00
+GramBeddings/homepage              all  NGRAM        5 0.97±0.01 0.98±0.01 0.96±0.02 0.21±0.05  0.95±0.00
+GramBeddings/homepage        no_scheme     LR        5 0.95±0.02 0.95±0.04 0.96±0.01 0.29±0.02  0.95±0.00
+GramBeddings/homepage        no_scheme     RF        5 0.94±0.02 0.94±0.04 0.95±0.02 0.34±0.04  0.95±0.00
+GramBeddings/homepage        no_scheme HistGB        5 0.95±0.02 0.95±0.04 0.96±0.02 0.30±0.03  0.95±0.00
+GramBeddings/homepage        no_scheme    MLP        5 0.96±0.02 0.96±0.03 0.97±0.01 0.28±0.02  0.95±0.00
+GramBeddings/homepage        no_scheme  NGRAM        5 0.97±0.01 0.97±0.01 0.96±0.03 0.23±0.06  0.95±0.00
+         PhiUSIIL/all no_scheme_no_www     LR        5 0.93±0.04 0.93±0.04 0.95±0.02 0.41±0.22  0.95±0.00
+         PhiUSIIL/all no_scheme_no_www     RF        5 1.00±0.00 0.99±0.00 0.94±0.03 0.02±0.01  0.95±0.00
+         PhiUSIIL/all no_scheme_no_www HistGB        5 1.00±0.00 1.00±0.00 0.94±0.03 0.00±0.00  0.95±0.00
+         PhiUSIIL/all no_scheme_no_www    MLP        5 0.92±0.05 0.93±0.05 0.94±0.02 0.49±0.28  0.95±0.00
+         PhiUSIIL/all no_scheme_no_www  NGRAM        5 0.90±0.01 0.91±0.02 0.95±0.02 0.58±0.10  0.95±0.00
+     GramBeddings/all no_scheme_no_www     LR        5 0.87±0.02 0.89±0.02 0.95±0.01 0.66±0.03  0.95±0.00
+     GramBeddings/all no_scheme_no_www     RF        5 0.92±0.02 0.93±0.02 0.95±0.01 0.44±0.07  0.95±0.00
+     GramBeddings/all no_scheme_no_www HistGB        5 0.92±0.02 0.93±0.02 0.94±0.02 0.39±0.05  0.95±0.00
+     GramBeddings/all no_scheme_no_www    MLP        5 0.92±0.02 0.93±0.02 0.94±0.01 0.44±0.08  0.95±0.00
+     GramBeddings/all no_scheme_no_www  NGRAM        5 0.96±0.00 0.96±0.00 0.93±0.02 0.19±0.04  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     LR        5 0.95±0.02 0.95±0.04 0.96±0.01 0.29±0.02  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     RF        5 0.94±0.02 0.94±0.04 0.95±0.02 0.35±0.03  0.95±0.00
+GramBeddings/homepage no_scheme_no_www HistGB        5 0.95±0.02 0.95±0.04 0.97±0.01 0.35±0.08  0.95±0.00
+GramBeddings/homepage no_scheme_no_www    MLP        5 0.96±0.02 0.95±0.03 0.97±0.01 0.30±0.03  0.95±0.00
+GramBeddings/homepage no_scheme_no_www  NGRAM        5 0.96±0.01 0.97±0.02 0.95±0.03 0.23±0.06  0.95±0.00
 
 ## GramBeddings all
-     variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-PhiUSIIL/all       all     LR        5 0.78±0.01 0.76±0.01 0.98±0.00 0.86±0.01  0.95±0.00
-PhiUSIIL/all       all     RF        5 0.61±0.01 0.54±0.01 0.99±0.00 0.95±0.01  0.95±0.00
-PhiUSIIL/all       all HistGB        5 0.76±0.03 0.71±0.06 0.98±0.01 0.81±0.05  0.95±0.00
-PhiUSIIL/all       all    MLP        5 0.77±0.04 0.75±0.03 0.98±0.01 0.81±0.07  0.95±0.00
-PhiUSIIL/all       all  NGRAM        5 0.73±0.01 0.64±0.01 0.95±0.01 0.66±0.02  0.95±0.00
-PhiUSIIL/all no_scheme     LR        5 0.79±0.01 0.78±0.01 1.00±0.00 0.99±0.00  0.95±0.00
-PhiUSIIL/all no_scheme     RF        5 0.61±0.02 0.54±0.01 1.00±0.00 0.98±0.00  0.95±0.00
-PhiUSIIL/all no_scheme HistGB        5 0.75±0.02 0.72±0.04 1.00±0.00 0.98±0.00  0.95±0.00
-PhiUSIIL/all no_scheme    MLP        5 0.67±0.09 0.62±0.11 1.00±0.00 0.97±0.02  0.95±0.00
-PhiUSIIL/all no_scheme  NGRAM        5 0.87±0.01 0.85±0.02 1.00±0.00 0.98±0.01  0.95±0.00
+     variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+PhiUSIIL/all              all     LR        5 0.78±0.01 0.76±0.01 0.98±0.00 0.86±0.01  0.95±0.00
+PhiUSIIL/all              all     RF        5 0.61±0.01 0.54±0.01 0.99±0.00 0.95±0.01  0.95±0.00
+PhiUSIIL/all              all HistGB        5 0.76±0.03 0.71±0.06 0.98±0.01 0.81±0.05  0.95±0.00
+PhiUSIIL/all              all    MLP        5 0.77±0.04 0.75±0.03 0.98±0.01 0.81±0.07  0.95±0.00
+PhiUSIIL/all              all  NGRAM        5 0.73±0.01 0.64±0.01 0.95±0.01 0.66±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme     LR        5 0.79±0.01 0.78±0.01 1.00±0.00 0.99±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme     RF        5 0.61±0.02 0.54±0.01 1.00±0.00 0.98±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme HistGB        5 0.75±0.02 0.72±0.04 1.00±0.00 0.98±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme    MLP        5 0.67±0.09 0.62±0.11 1.00±0.00 0.97±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme  NGRAM        5 0.87±0.01 0.85±0.02 1.00±0.00 0.98±0.01  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     LR        5 0.76±0.01 0.75±0.01 1.00±0.00 0.99±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     RF        5 0.56±0.01 0.50±0.01 1.00±0.00 0.98±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www HistGB        5 0.67±0.01 0.67±0.03 1.00±0.00 0.97±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www    MLP        5 0.73±0.04 0.71±0.07 1.00±0.00 0.99±0.01  0.95±0.00
+PhiUSIIL/all no_scheme_no_www  NGRAM        5 0.84±0.01 0.82±0.02 1.00±0.00 0.97±0.02  0.95±0.00
 
 ## GramBeddings homepage
-     variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-PhiUSIIL/all       all     LR        5 0.78±0.01 0.70±0.04 0.94±0.01 0.66±0.01  0.95±0.00
-PhiUSIIL/all       all     RF        5 0.65±0.00 0.45±0.04 0.96±0.01 0.79±0.01  0.95±0.00
-PhiUSIIL/all       all HistGB        5 0.80±0.01 0.70±0.05 0.95±0.01 0.68±0.00  0.95±0.00
-PhiUSIIL/all       all    MLP        5 0.76±0.04 0.66±0.09 0.94±0.03 0.68±0.07  0.95±0.00
-PhiUSIIL/all       all  NGRAM        5 0.67±0.01 0.48±0.04 0.86±0.03 0.56±0.02  0.95±0.00
-PhiUSIIL/all no_scheme     LR        5 0.86±0.02 0.79±0.05 1.00±0.00 0.94±0.02  0.95±0.00
-PhiUSIIL/all no_scheme     RF        5 0.71±0.01 0.50±0.03 1.00±0.00 0.90±0.00  0.95±0.00
-PhiUSIIL/all no_scheme HistGB        5 0.84±0.02 0.75±0.05 1.00±0.00 0.90±0.01  0.95±0.00
-PhiUSIIL/all no_scheme    MLP        5 0.73±0.13 0.59±0.18 1.00±0.00 0.92±0.03  0.95±0.00
-PhiUSIIL/all no_scheme  NGRAM        5 0.87±0.02 0.77±0.05 1.00±0.00 0.92±0.02  0.95±0.00
+     variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+PhiUSIIL/all              all     LR        5 0.78±0.01 0.70±0.04 0.94±0.01 0.66±0.01  0.95±0.00
+PhiUSIIL/all              all     RF        5 0.65±0.00 0.45±0.04 0.96±0.01 0.79±0.01  0.95±0.00
+PhiUSIIL/all              all HistGB        5 0.80±0.01 0.70±0.05 0.95±0.01 0.68±0.00  0.95±0.00
+PhiUSIIL/all              all    MLP        5 0.76±0.04 0.66±0.09 0.94±0.03 0.68±0.07  0.95±0.00
+PhiUSIIL/all              all  NGRAM        5 0.67±0.01 0.48±0.04 0.86±0.03 0.56±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme     LR        5 0.86±0.02 0.79±0.05 1.00±0.00 0.94±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme     RF        5 0.71±0.01 0.50±0.03 1.00±0.00 0.90±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme HistGB        5 0.84±0.02 0.75±0.05 1.00±0.00 0.90±0.01  0.95±0.00
+PhiUSIIL/all        no_scheme    MLP        5 0.73±0.13 0.59±0.18 1.00±0.00 0.92±0.03  0.95±0.00
+PhiUSIIL/all        no_scheme  NGRAM        5 0.87±0.02 0.77±0.05 1.00±0.00 0.92±0.02  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     LR        5 0.89±0.01 0.82±0.04 1.00±0.00 0.93±0.02  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     RF        5 0.72±0.01 0.51±0.05 1.00±0.00 0.87±0.01  0.95±0.00
+PhiUSIIL/all no_scheme_no_www HistGB        5 0.85±0.01 0.76±0.04 1.00±0.00 0.84±0.01  0.95±0.00
+PhiUSIIL/all no_scheme_no_www    MLP        5 0.89±0.02 0.82±0.04 1.00±0.00 0.93±0.03  0.95±0.00
+PhiUSIIL/all no_scheme_no_www  NGRAM        5 0.87±0.02 0.77±0.05 0.99±0.00 0.84±0.05  0.95±0.00
 
 ## GramBeddings deep
-     variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-PhiUSIIL/all       all     LR        5 0.78±0.01 0.77±0.01 0.99±0.00 0.89±0.02  0.95±0.00
-PhiUSIIL/all       all     RF        5 0.61±0.01 0.55±0.01 1.00±0.00 0.98±0.01  0.95±0.00
-PhiUSIIL/all       all HistGB        5 0.75±0.04 0.71±0.06 0.98±0.01 0.83±0.05  0.95±0.00
-PhiUSIIL/all       all    MLP        5 0.77±0.04 0.76±0.03 0.98±0.01 0.83±0.07  0.95±0.00
-PhiUSIIL/all       all  NGRAM        5 0.74±0.00 0.67±0.01 0.96±0.01 0.68±0.02  0.95±0.00
-PhiUSIIL/all no_scheme     LR        5 0.79±0.01 0.79±0.01 1.00±0.00 1.00±0.00  0.95±0.00
-PhiUSIIL/all no_scheme     RF        5 0.60±0.02 0.54±0.01 1.00±0.00 1.00±0.00  0.95±0.00
-PhiUSIIL/all no_scheme HistGB        5 0.74±0.02 0.72±0.04 1.00±0.00 0.99±0.00  0.95±0.00
-PhiUSIIL/all no_scheme    MLP        5 0.66±0.09 0.63±0.11 1.00±0.00 0.98±0.02  0.95±0.00
-PhiUSIIL/all no_scheme  NGRAM        5 0.87±0.01 0.86±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+     variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+PhiUSIIL/all              all     LR        5 0.78±0.01 0.77±0.01 0.99±0.00 0.89±0.02  0.95±0.00
+PhiUSIIL/all              all     RF        5 0.61±0.01 0.55±0.01 1.00±0.00 0.98±0.01  0.95±0.00
+PhiUSIIL/all              all HistGB        5 0.75±0.04 0.71±0.06 0.98±0.01 0.83±0.05  0.95±0.00
+PhiUSIIL/all              all    MLP        5 0.77±0.04 0.76±0.03 0.98±0.01 0.83±0.07  0.95±0.00
+PhiUSIIL/all              all  NGRAM        5 0.74±0.00 0.67±0.01 0.96±0.01 0.68±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme     LR        5 0.79±0.01 0.79±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme     RF        5 0.60±0.02 0.54±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme HistGB        5 0.74±0.02 0.72±0.04 1.00±0.00 0.99±0.00  0.95±0.00
+PhiUSIIL/all        no_scheme    MLP        5 0.66±0.09 0.63±0.11 1.00±0.00 0.98±0.02  0.95±0.00
+PhiUSIIL/all        no_scheme  NGRAM        5 0.87±0.01 0.86±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     LR        5 0.76±0.01 0.77±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www     RF        5 0.53±0.01 0.50±0.01 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www HistGB        5 0.65±0.01 0.66±0.02 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www    MLP        5 0.73±0.05 0.72±0.08 1.00±0.00 1.00±0.00  0.95±0.00
+PhiUSIIL/all no_scheme_no_www  NGRAM        5 0.84±0.01 0.82±0.02 1.00±0.00 0.99±0.01  0.95±0.00
 
 ## PhishTank (phish only)
-              variant   featset  model  n_seeds auroc pr_auc    recall fpr val_recall
-         PhiUSIIL/all       all     LR        5              0.95±0.00      0.95±0.00
-         PhiUSIIL/all       all     RF        5              0.97±0.00      0.95±0.00
-         PhiUSIIL/all       all HistGB        5              0.95±0.00      0.95±0.00
-         PhiUSIIL/all       all    MLP        5              0.94±0.03      0.95±0.00
-         PhiUSIIL/all       all  NGRAM        5              0.73±0.06      0.95±0.00
-         PhiUSIIL/all no_scheme     LR        5              1.00±0.00      0.95±0.00
-         PhiUSIIL/all no_scheme     RF        5              1.00±0.00      0.95±0.00
-         PhiUSIIL/all no_scheme HistGB        5              1.00±0.00      0.95±0.00
-         PhiUSIIL/all no_scheme    MLP        5              1.00±0.00      0.95±0.00
-         PhiUSIIL/all no_scheme  NGRAM        5              1.00±0.00      0.95±0.00
-     GramBeddings/all       all     LR        5              0.68±0.03      0.95±0.00
-     GramBeddings/all       all     RF        5              0.87±0.05      0.95±0.00
-     GramBeddings/all       all HistGB        5              0.84±0.05      0.95±0.00
-     GramBeddings/all       all    MLP        5              0.80±0.06      0.95±0.00
-     GramBeddings/all       all  NGRAM        5              0.68±0.09      0.95±0.00
-     GramBeddings/all no_scheme     LR        5              0.70±0.05      0.95±0.00
-     GramBeddings/all no_scheme     RF        5              0.88±0.04      0.95±0.00
-     GramBeddings/all no_scheme HistGB        5              0.84±0.05      0.95±0.00
-     GramBeddings/all no_scheme    MLP        5              0.80±0.04      0.95±0.00
-     GramBeddings/all no_scheme  NGRAM        5              0.80±0.05      0.95±0.00
-GramBeddings/homepage       all     LR        5              0.93±0.01      0.95±0.00
-GramBeddings/homepage       all     RF        5              0.94±0.01      0.95±0.00
-GramBeddings/homepage       all HistGB        5              0.84±0.03      0.95±0.00
-GramBeddings/homepage       all    MLP        5              0.92±0.03      0.95±0.00
-GramBeddings/homepage       all  NGRAM        5              0.80±0.05      0.95±0.00
-GramBeddings/homepage no_scheme     LR        5              0.93±0.01      0.95±0.00
-GramBeddings/homepage no_scheme     RF        5              0.94±0.01      0.95±0.00
-GramBeddings/homepage no_scheme HistGB        5              0.80±0.04      0.95±0.00
-GramBeddings/homepage no_scheme    MLP        5              0.90±0.03      0.95±0.00
-GramBeddings/homepage no_scheme  NGRAM        5              0.89±0.05      0.95±0.00
+              variant          featset  model  n_seeds auroc pr_auc    recall fpr val_recall
+         PhiUSIIL/all              all     LR        5              0.95±0.00      0.95±0.00
+         PhiUSIIL/all              all     RF        5              0.97±0.00      0.95±0.00
+         PhiUSIIL/all              all HistGB        5              0.95±0.00      0.95±0.00
+         PhiUSIIL/all              all    MLP        5              0.94±0.03      0.95±0.00
+         PhiUSIIL/all              all  NGRAM        5              0.73±0.06      0.95±0.00
+         PhiUSIIL/all        no_scheme     LR        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all        no_scheme     RF        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all        no_scheme HistGB        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all        no_scheme    MLP        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all        no_scheme  NGRAM        5              1.00±0.00      0.95±0.00
+     GramBeddings/all              all     LR        5              0.68±0.03      0.95±0.00
+     GramBeddings/all              all     RF        5              0.87±0.05      0.95±0.00
+     GramBeddings/all              all HistGB        5              0.84±0.05      0.95±0.00
+     GramBeddings/all              all    MLP        5              0.80±0.06      0.95±0.00
+     GramBeddings/all              all  NGRAM        5              0.68±0.09      0.95±0.00
+     GramBeddings/all        no_scheme     LR        5              0.70±0.05      0.95±0.00
+     GramBeddings/all        no_scheme     RF        5              0.88±0.04      0.95±0.00
+     GramBeddings/all        no_scheme HistGB        5              0.84±0.05      0.95±0.00
+     GramBeddings/all        no_scheme    MLP        5              0.80±0.04      0.95±0.00
+     GramBeddings/all        no_scheme  NGRAM        5              0.80±0.05      0.95±0.00
+GramBeddings/homepage              all     LR        5              0.93±0.01      0.95±0.00
+GramBeddings/homepage              all     RF        5              0.94±0.01      0.95±0.00
+GramBeddings/homepage              all HistGB        5              0.84±0.03      0.95±0.00
+GramBeddings/homepage              all    MLP        5              0.92±0.03      0.95±0.00
+GramBeddings/homepage              all  NGRAM        5              0.80±0.05      0.95±0.00
+GramBeddings/homepage        no_scheme     LR        5              0.93±0.01      0.95±0.00
+GramBeddings/homepage        no_scheme     RF        5              0.94±0.01      0.95±0.00
+GramBeddings/homepage        no_scheme HistGB        5              0.80±0.04      0.95±0.00
+GramBeddings/homepage        no_scheme    MLP        5              0.90±0.03      0.95±0.00
+GramBeddings/homepage        no_scheme  NGRAM        5              0.89±0.05      0.95±0.00
+         PhiUSIIL/all no_scheme_no_www     LR        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all no_scheme_no_www     RF        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all no_scheme_no_www HistGB        5              0.99±0.00      0.95±0.00
+         PhiUSIIL/all no_scheme_no_www    MLP        5              1.00±0.00      0.95±0.00
+         PhiUSIIL/all no_scheme_no_www  NGRAM        5              1.00±0.00      0.95±0.00
+     GramBeddings/all no_scheme_no_www     LR        5              0.73±0.04      0.95±0.00
+     GramBeddings/all no_scheme_no_www     RF        5              0.88±0.04      0.95±0.00
+     GramBeddings/all no_scheme_no_www HistGB        5              0.86±0.04      0.95±0.00
+     GramBeddings/all no_scheme_no_www    MLP        5              0.86±0.02      0.95±0.00
+     GramBeddings/all no_scheme_no_www  NGRAM        5              0.75±0.04      0.95±0.00
+GramBeddings/homepage no_scheme_no_www     LR        5              0.93±0.01      0.95±0.00
+GramBeddings/homepage no_scheme_no_www     RF        5              0.94±0.01      0.95±0.00
+GramBeddings/homepage no_scheme_no_www HistGB        5              0.84±0.04      0.95±0.00
+GramBeddings/homepage no_scheme_no_www    MLP        5              0.90±0.04      0.95±0.00
+GramBeddings/homepage no_scheme_no_www  NGRAM        5              0.84±0.04      0.95±0.00
 
 ## PhiUSIIL all
-              variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-     GramBeddings/all       all     LR        5 0.84±0.01 0.84±0.01 0.53±0.04 0.01±0.00  0.95±0.00
-     GramBeddings/all       all     RF        5 0.83±0.01 0.83±0.01 0.58±0.03 0.02±0.01  0.95±0.00
-     GramBeddings/all       all HistGB        5 0.83±0.02 0.84±0.03 0.53±0.04 0.00±0.00  0.95±0.00
-     GramBeddings/all       all    MLP        5 0.91±0.04 0.89±0.03 0.58±0.02 0.01±0.01  0.95±0.00
-     GramBeddings/all       all  NGRAM        5 0.92±0.02 0.92±0.01 0.50±0.04 0.00±0.00  0.95±0.00
-     GramBeddings/all no_scheme     LR        5 0.77±0.02 0.79±0.02 0.53±0.05 0.02±0.01  0.95±0.00
-     GramBeddings/all no_scheme     RF        5 0.82±0.01 0.82±0.02 0.58±0.04 0.02±0.01  0.95±0.00
-     GramBeddings/all no_scheme HistGB        5 0.82±0.01 0.83±0.02 0.53±0.03 0.00±0.00  0.95±0.00
-     GramBeddings/all no_scheme    MLP        5 0.82±0.02 0.84±0.03 0.58±0.03 0.01±0.00  0.95±0.00
-     GramBeddings/all no_scheme  NGRAM        5 0.86±0.01 0.86±0.02 0.52±0.04 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all     LR        5 0.87±0.02 0.86±0.02 0.54±0.03 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all     RF        5 0.82±0.01 0.80±0.02 0.57±0.02 0.01±0.00  0.95±0.00
-GramBeddings/homepage       all HistGB        5 0.82±0.02 0.84±0.02 0.52±0.03 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all    MLP        5 0.84±0.03 0.85±0.02 0.54±0.01 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all  NGRAM        5 0.90±0.01 0.90±0.01 0.56±0.03 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme     LR        5 0.83±0.01 0.84±0.02 0.54±0.03 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme     RF        5 0.82±0.01 0.80±0.02 0.57±0.03 0.01±0.00  0.95±0.00
-GramBeddings/homepage no_scheme HistGB        5 0.82±0.02 0.83±0.02 0.51±0.03 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme    MLP        5 0.80±0.02 0.82±0.02 0.53±0.02 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme  NGRAM        5 0.86±0.01 0.87±0.01 0.56±0.03 0.01±0.00  0.95±0.00
+              variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+     GramBeddings/all              all     LR        5 0.84±0.01 0.84±0.01 0.53±0.04 0.01±0.00  0.95±0.00
+     GramBeddings/all              all     RF        5 0.83±0.01 0.83±0.01 0.58±0.03 0.02±0.01  0.95±0.00
+     GramBeddings/all              all HistGB        5 0.83±0.02 0.84±0.03 0.53±0.04 0.00±0.00  0.95±0.00
+     GramBeddings/all              all    MLP        5 0.91±0.04 0.89±0.03 0.58±0.02 0.01±0.01  0.95±0.00
+     GramBeddings/all              all  NGRAM        5 0.92±0.02 0.92±0.01 0.50±0.04 0.00±0.00  0.95±0.00
+     GramBeddings/all        no_scheme     LR        5 0.77±0.02 0.79±0.02 0.53±0.05 0.02±0.01  0.95±0.00
+     GramBeddings/all        no_scheme     RF        5 0.82±0.01 0.82±0.02 0.58±0.04 0.02±0.01  0.95±0.00
+     GramBeddings/all        no_scheme HistGB        5 0.82±0.01 0.83±0.02 0.53±0.03 0.00±0.00  0.95±0.00
+     GramBeddings/all        no_scheme    MLP        5 0.82±0.02 0.84±0.03 0.58±0.03 0.01±0.00  0.95±0.00
+     GramBeddings/all        no_scheme  NGRAM        5 0.86±0.01 0.86±0.02 0.52±0.04 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all     LR        5 0.87±0.02 0.86±0.02 0.54±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all     RF        5 0.82±0.01 0.80±0.02 0.57±0.02 0.01±0.00  0.95±0.00
+GramBeddings/homepage              all HistGB        5 0.82±0.02 0.84±0.02 0.52±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all    MLP        5 0.84±0.03 0.85±0.02 0.54±0.01 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all  NGRAM        5 0.90±0.01 0.90±0.01 0.56±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme     LR        5 0.83±0.01 0.84±0.02 0.54±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme     RF        5 0.82±0.01 0.80±0.02 0.57±0.03 0.01±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme HistGB        5 0.82±0.02 0.83±0.02 0.51±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme    MLP        5 0.80±0.02 0.82±0.02 0.53±0.02 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme  NGRAM        5 0.86±0.01 0.87±0.01 0.56±0.03 0.01±0.00  0.95±0.00
+     GramBeddings/all no_scheme_no_www     LR        5 0.75±0.01 0.76±0.02 0.67±0.04 0.30±0.08  0.95±0.00
+     GramBeddings/all no_scheme_no_www     RF        5 0.82±0.01 0.81±0.02 0.57±0.03 0.03±0.01  0.95±0.00
+     GramBeddings/all no_scheme_no_www HistGB        5 0.81±0.01 0.83±0.02 0.54±0.03 0.01±0.00  0.95±0.00
+     GramBeddings/all no_scheme_no_www    MLP        5 0.84±0.02 0.84±0.02 0.61±0.04 0.04±0.02  0.95±0.00
+     GramBeddings/all no_scheme_no_www  NGRAM        5 0.83±0.01 0.81±0.02 0.68±0.04 0.16±0.03  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     LR        5 0.83±0.01 0.84±0.02 0.54±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     RF        5 0.81±0.01 0.80±0.02 0.58±0.02 0.02±0.01  0.95±0.00
+GramBeddings/homepage no_scheme_no_www HistGB        5 0.82±0.01 0.83±0.01 0.53±0.03 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www    MLP        5 0.80±0.01 0.82±0.02 0.54±0.02 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www  NGRAM        5 0.85±0.01 0.83±0.02 0.68±0.05 0.12±0.04  0.95±0.00
 
 ## PhiUSIIL homepage
-              variant   featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
-     GramBeddings/all       all     LR        5 0.78±0.01 0.72±0.03 0.39±0.06 0.01±0.00  0.95±0.00
-     GramBeddings/all       all     RF        5 0.77±0.01 0.71±0.03 0.43±0.05 0.02±0.01  0.95±0.00
-     GramBeddings/all       all HistGB        5 0.76±0.04 0.72±0.05 0.38±0.06 0.00±0.00  0.95±0.00
-     GramBeddings/all       all    MLP        5 0.87±0.05 0.80±0.06 0.46±0.04 0.01±0.01  0.95±0.00
-     GramBeddings/all       all  NGRAM        5 0.89±0.02 0.85±0.03 0.33±0.06 0.00±0.00  0.95±0.00
-     GramBeddings/all no_scheme     LR        5 0.69±0.03 0.65±0.05 0.38±0.06 0.02±0.01  0.95±0.00
-     GramBeddings/all no_scheme     RF        5 0.75±0.02 0.70±0.03 0.43±0.06 0.02±0.01  0.95±0.00
-     GramBeddings/all no_scheme HistGB        5 0.74±0.02 0.71±0.03 0.38±0.05 0.00±0.00  0.95±0.00
-     GramBeddings/all no_scheme    MLP        5 0.76±0.04 0.73±0.05 0.45±0.04 0.01±0.00  0.95±0.00
-     GramBeddings/all no_scheme  NGRAM        5 0.80±0.02 0.75±0.04 0.35±0.06 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all     LR        5 0.82±0.03 0.76±0.04 0.36±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all     RF        5 0.74±0.02 0.66±0.04 0.39±0.04 0.01±0.00  0.95±0.00
-GramBeddings/homepage       all HistGB        5 0.74±0.04 0.71±0.04 0.34±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all    MLP        5 0.78±0.05 0.74±0.04 0.35±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage       all  NGRAM        5 0.86±0.02 0.81±0.03 0.41±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme     LR        5 0.77±0.02 0.73±0.04 0.36±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme     RF        5 0.74±0.02 0.66±0.04 0.40±0.05 0.01±0.00  0.95±0.00
-GramBeddings/homepage no_scheme HistGB        5 0.74±0.03 0.70±0.04 0.34±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme    MLP        5 0.74±0.03 0.71±0.04 0.36±0.05 0.00±0.00  0.95±0.00
-GramBeddings/homepage no_scheme  NGRAM        5 0.81±0.02 0.76±0.03 0.41±0.05 0.01±0.00  0.95±0.00
+              variant          featset  model  n_seeds     auroc    pr_auc    recall       fpr val_recall
+     GramBeddings/all              all     LR        5 0.78±0.01 0.72±0.03 0.39±0.06 0.01±0.00  0.95±0.00
+     GramBeddings/all              all     RF        5 0.77±0.01 0.71±0.03 0.43±0.05 0.02±0.01  0.95±0.00
+     GramBeddings/all              all HistGB        5 0.76±0.04 0.72±0.05 0.38±0.06 0.00±0.00  0.95±0.00
+     GramBeddings/all              all    MLP        5 0.87±0.05 0.80±0.06 0.46±0.04 0.01±0.01  0.95±0.00
+     GramBeddings/all              all  NGRAM        5 0.89±0.02 0.85±0.03 0.33±0.06 0.00±0.00  0.95±0.00
+     GramBeddings/all        no_scheme     LR        5 0.69±0.03 0.65±0.05 0.38±0.06 0.02±0.01  0.95±0.00
+     GramBeddings/all        no_scheme     RF        5 0.75±0.02 0.70±0.03 0.43±0.06 0.02±0.01  0.95±0.00
+     GramBeddings/all        no_scheme HistGB        5 0.74±0.02 0.71±0.03 0.38±0.05 0.00±0.00  0.95±0.00
+     GramBeddings/all        no_scheme    MLP        5 0.76±0.04 0.73±0.05 0.45±0.04 0.01±0.00  0.95±0.00
+     GramBeddings/all        no_scheme  NGRAM        5 0.80±0.02 0.75±0.04 0.35±0.06 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all     LR        5 0.82±0.03 0.76±0.04 0.36±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all     RF        5 0.74±0.02 0.66±0.04 0.39±0.04 0.01±0.00  0.95±0.00
+GramBeddings/homepage              all HistGB        5 0.74±0.04 0.71±0.04 0.34±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all    MLP        5 0.78±0.05 0.74±0.04 0.35±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage              all  NGRAM        5 0.86±0.02 0.81±0.03 0.41±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme     LR        5 0.77±0.02 0.73±0.04 0.36±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme     RF        5 0.74±0.02 0.66±0.04 0.40±0.05 0.01±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme HistGB        5 0.74±0.03 0.70±0.04 0.34±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme    MLP        5 0.74±0.03 0.71±0.04 0.36±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage        no_scheme  NGRAM        5 0.81±0.02 0.76±0.03 0.41±0.05 0.01±0.00  0.95±0.00
+     GramBeddings/all no_scheme_no_www     LR        5 0.68±0.02 0.63±0.04 0.57±0.06 0.30±0.08  0.95±0.00
+     GramBeddings/all no_scheme_no_www     RF        5 0.75±0.02 0.69±0.03 0.43±0.05 0.03±0.01  0.95±0.00
+     GramBeddings/all no_scheme_no_www HistGB        5 0.74±0.02 0.70±0.04 0.39±0.05 0.01±0.00  0.95±0.00
+     GramBeddings/all no_scheme_no_www    MLP        5 0.78±0.03 0.74±0.04 0.49±0.06 0.04±0.02  0.95±0.00
+     GramBeddings/all no_scheme_no_www  NGRAM        5 0.78±0.02 0.68±0.05 0.58±0.05 0.16±0.03  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     LR        5 0.77±0.02 0.73±0.04 0.36±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www     RF        5 0.73±0.02 0.65±0.04 0.40±0.04 0.02±0.01  0.95±0.00
+GramBeddings/homepage no_scheme_no_www HistGB        5 0.74±0.01 0.70±0.03 0.37±0.05 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www    MLP        5 0.74±0.04 0.70±0.05 0.37±0.04 0.00±0.00  0.95±0.00
+GramBeddings/homepage no_scheme_no_www  NGRAM        5 0.80±0.02 0.73±0.04 0.59±0.06 0.12±0.04  0.95±0.00
 
 ## PhiUSIIL deep
-              variant   featset  model  n_seeds auroc pr_auc    recall fpr val_recall
-     GramBeddings/all       all     LR        5              0.89±0.02      0.95±0.00
-     GramBeddings/all       all     RF        5              0.93±0.02      0.95±0.00
-     GramBeddings/all       all HistGB        5              0.89±0.02      0.95±0.00
-     GramBeddings/all       all    MLP        5              0.89±0.02      0.95±0.00
-     GramBeddings/all       all  NGRAM        5              0.88±0.03      0.95±0.00
-     GramBeddings/all no_scheme     LR        5              0.90±0.02      0.95±0.00
-     GramBeddings/all no_scheme     RF        5              0.93±0.02      0.95±0.00
-     GramBeddings/all no_scheme HistGB        5              0.90±0.01      0.95±0.00
-     GramBeddings/all no_scheme    MLP        5              0.89±0.02      0.95±0.00
-     GramBeddings/all no_scheme  NGRAM        5              0.91±0.02      0.95±0.00
-GramBeddings/homepage       all     LR        5              0.96±0.01      0.95±0.00
-GramBeddings/homepage       all     RF        5              0.99±0.00      0.95±0.00
-GramBeddings/homepage       all HistGB        5              0.93±0.02      0.95±0.00
-GramBeddings/homepage       all    MLP        5              0.95±0.05      0.95±0.00
-GramBeddings/homepage       all  NGRAM        5              0.91±0.02      0.95±0.00
-GramBeddings/homepage no_scheme     LR        5              0.95±0.01      0.95±0.00
-GramBeddings/homepage no_scheme     RF        5              0.99±0.00      0.95±0.00
-GramBeddings/homepage no_scheme HistGB        5              0.89±0.02      0.95±0.00
-GramBeddings/homepage no_scheme    MLP        5              0.93±0.05      0.95±0.00
-GramBeddings/homepage no_scheme  NGRAM        5              0.91±0.03      0.95±0.00
+              variant          featset  model  n_seeds auroc pr_auc    recall fpr val_recall
+     GramBeddings/all              all     LR        5              0.89±0.02      0.95±0.00
+     GramBeddings/all              all     RF        5              0.93±0.02      0.95±0.00
+     GramBeddings/all              all HistGB        5              0.89±0.02      0.95±0.00
+     GramBeddings/all              all    MLP        5              0.89±0.02      0.95±0.00
+     GramBeddings/all              all  NGRAM        5              0.88±0.03      0.95±0.00
+     GramBeddings/all        no_scheme     LR        5              0.90±0.02      0.95±0.00
+     GramBeddings/all        no_scheme     RF        5              0.93±0.02      0.95±0.00
+     GramBeddings/all        no_scheme HistGB        5              0.90±0.01      0.95±0.00
+     GramBeddings/all        no_scheme    MLP        5              0.89±0.02      0.95±0.00
+     GramBeddings/all        no_scheme  NGRAM        5              0.91±0.02      0.95±0.00
+GramBeddings/homepage              all     LR        5              0.96±0.01      0.95±0.00
+GramBeddings/homepage              all     RF        5              0.99±0.00      0.95±0.00
+GramBeddings/homepage              all HistGB        5              0.93±0.02      0.95±0.00
+GramBeddings/homepage              all    MLP        5              0.95±0.05      0.95±0.00
+GramBeddings/homepage              all  NGRAM        5              0.91±0.02      0.95±0.00
+GramBeddings/homepage        no_scheme     LR        5              0.95±0.01      0.95±0.00
+GramBeddings/homepage        no_scheme     RF        5              0.99±0.00      0.95±0.00
+GramBeddings/homepage        no_scheme HistGB        5              0.89±0.02      0.95±0.00
+GramBeddings/homepage        no_scheme    MLP        5              0.93±0.05      0.95±0.00
+GramBeddings/homepage        no_scheme  NGRAM        5              0.91±0.03      0.95±0.00
+     GramBeddings/all no_scheme_no_www     LR        5              0.90±0.01      0.95±0.00
+     GramBeddings/all no_scheme_no_www     RF        5              0.93±0.01      0.95±0.00
+     GramBeddings/all no_scheme_no_www HistGB        5              0.89±0.01      0.95±0.00
+     GramBeddings/all no_scheme_no_www    MLP        5              0.89±0.02      0.95±0.00
+     GramBeddings/all no_scheme_no_www  NGRAM        5              0.91±0.01      0.95±0.00
+GramBeddings/homepage no_scheme_no_www     LR        5              0.95±0.01      0.95±0.00
+GramBeddings/homepage no_scheme_no_www     RF        5              0.98±0.00      0.95±0.00
+GramBeddings/homepage no_scheme_no_www HistGB        5              0.90±0.03      0.95±0.00
+GramBeddings/homepage no_scheme_no_www    MLP        5              0.92±0.05      0.95±0.00
+GramBeddings/homepage no_scheme_no_www  NGRAM        5              0.90±0.03      0.95±0.00

@@ -68,7 +68,7 @@ Run everything from the repository root.
 .venv/bin/python scripts/04_shift_and_reverse.py        # first-pass feature shift and reverse direction
 .venv/bin/python scripts/05_reproduce_phiusiil.py       # Tables 5 and 6 (add --order shuffle --seed N, --drop usi,page, --table7 sequential|random)
 .venv/bin/python scripts/06_shortcut_ablation.py        # is the similarity index leakage or a shortcut?
-nice .venv/bin/python scripts/07_transfer_matched.py --seeds 0,1,2,3,4   # Part B transfer, about 5 min
+nice .venv/bin/python scripts/07_transfer_matched.py --seeds 0,1,2,3,4   # Part B transfer, about 7 min
 .venv/bin/python scripts/08_summarize_transfer.py       # mean and std over seeds
 .venv/bin/python scripts/09_table3_baselines.py --seed 0   # one process per seed, then add --summarize (needs results/repro_features_file_s0.csv from script 05)
 ```

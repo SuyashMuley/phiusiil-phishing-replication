@@ -198,3 +198,9 @@ Machine: Apple M4, 10 cores, 24 GB; all runs fit comfortably (the longest, Table
 
 ## 15. Checkpoint report draft (2026-11-01)
 `checkpoint/checkpoint.tex` -> `checkpoint/checkpoint.pdf` (2 pages; built with `tectonic checkpoint.tex`). Sections: summary, response to feedback, Part A, similarity-index finding, Part B, remaining plan and risks. All numbers are taken from plan.md; format and length requirements of the course were not checked.
+
+## 16. `no_scheme_no_www` ablation (2026-11-01)
+Script 07 gained a third feature set, `no_scheme_no_www` (drops `is_https` and `has_www`; NGRAM strips `http(s)://` and a leading `www.`). The default `--featsets` is now `all,no_scheme,no_scheme_no_www` (about 7 min for 5 seeds). Results merged into `results/transfer_runs.csv`; `scripts/08_summarize_transfer.py` regenerates `results/transfer_summary.csv`; log `results/logs/transfer_nowww.log`.
+- RF and HistGB still reach AUROC 1.00 on PhiUSIIL without scheme and `www`, so my earlier guess that trees recover through `has_www` is refuted (other URL-form columns carry it).
+- `has_www` carries real signal on GramBeddings: in-distribution AUROC drops 0.02-0.04 without it.
+- PhiUSIIL-trained transfer gets no better; GramBeddings-trained LR and NGRAM flag more PhiUSIIL legit URLs (FPR 0.02 -> 0.30 and 0.00 -> 0.16). The fixed-threshold conclusion is unchanged.

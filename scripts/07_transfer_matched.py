@@ -32,7 +32,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 ap = argparse.ArgumentParser()
 ap.add_argument("--seeds", default="0")
 ap.add_argument("--models", default="LR,RF,HistGB,MLP,NGRAM")
-ap.add_argument("--featsets", default="all,no_scheme", help="no_scheme drops is_https (feature models) / strips the scheme (NGRAM)")
+ap.add_argument("--featsets", default="all,no_scheme,no_scheme_no_www", help="no_scheme drops is_https (feature models) / strips the scheme (NGRAM); no_scheme_no_www also drops has_www / a leading www.")
 ap.add_argument("--pool", type=int, default=40_000, help="max matched pool size per source variant")
 ap.add_argument("--phish-rate", type=float, default=0.5)
 ap.add_argument("--unmatched", action="store_true", help="do not force the same pool size across source variants")
@@ -61,13 +61,18 @@ pt = pt[pt.phish == 1]  # Tranco rows carry a synthetic https:// and are not use
 FEATS = [c for c in phi.columns if c not in ("url", "phish", "dom")]
 for d in (phi, gram, pt):
     d["utype"] = url_type(d.url)
-FEATSETS = {"all": FEATS, "no_scheme": [c for c in FEATS if c != "is_https"]}
+FEATSETS = {"all": FEATS, "no_scheme": [c for c in FEATS if c != "is_https"],
+            "no_scheme_no_www": [c for c in FEATS if c not in ("is_https", "has_www")]}
 USED_FS = args.featsets.split(",")
 
 
 def prep(m_name, d, fs):
     if m_name in TEXT_MODELS:
-        return (d.url.str.replace(SCHEME, "", regex=True, case=False) if fs == "no_scheme" else d.url).values
+        if fs == "no_scheme":
+            return d.url.str.replace(SCHEME, "", regex=True, case=False).values
+        if fs == "no_scheme_no_www":
+            return d.url.str.replace(SCHEME + r"(www\.)?", "", regex=True, case=False).values
+        return d.url.values
     return d[FEATSETS[fs]]
 
 SOURCES = {"PhiUSIIL/all": (phi, None), "GramBeddings/all": (gram, None), "GramBeddings/homepage": (gram, "homepage")}

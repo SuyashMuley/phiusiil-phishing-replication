@@ -324,6 +324,32 @@ AUROC / recall / FPR at the validation-fixed threshold, mean of 5 seeds (full me
 | | NGRAM | 0.92 / 0.50 / 0.00 | 0.86 / 0.52 / 0.00 |
 | GramBeddings -> PhiUSIIL homepage only | NGRAM | 0.89 / 0.33 / 0.00 | 0.80 / 0.35 / 0.00 |
 
+**`no_scheme_no_www` ablation added 2026-11-01** (`--featsets ... no_scheme_no_www`: drops `is_https` and `has_www` for the feature models; strips `http(s)://` and a leading `www.` for NGRAM; 5 seeds, about 2 min; rows merged into `results/transfer_runs.csv`, summary via script 08). Mean AUROC / recall / FPR over 5 seeds; "all" / no scheme / no scheme and no www:
+
+| Train -> Target | Model | all | no scheme | no scheme, no www |
+|---|---|---|---|---|
+| PhiUSIIL -> PhiUSIIL test | RF | 1.00 / 0.94 / 0.00 | 0.99 / 0.94 / 0.02 | 1.00 / 0.94 / 0.02 |
+| | HistGB | 1.00 / 0.93 / 0.00 | 1.00 / 0.94 / 0.00 | 1.00 / 0.94 / 0.00 |
+| | LR | 1.00 / 0.94 / 0.00 | 0.93 / 0.94 / 0.41 | 0.93 / 0.95 / 0.41 |
+| | NGRAM | 1.00 / 0.93 / 0.00 | 0.91 / 0.94 / 0.57 | 0.90 / 0.95 / 0.58 |
+| PhiUSIIL -> GramBeddings all | HistGB | 0.76 / 0.98 / 0.81 | 0.75 / 1.00 / 0.98 | 0.67 / 1.00 / 0.97 |
+| | RF | 0.61 / 0.99 / 0.95 | 0.61 / 1.00 / 0.98 | 0.56 / 1.00 / 0.98 |
+| | NGRAM | 0.73 / 0.95 / 0.66 | 0.87 / 1.00 / 0.98 | 0.84 / 1.00 / 0.97 |
+| GramBeddings -> GramBeddings test | LR | 0.91 / 0.95 / 0.47 | 0.91 / 0.95 / 0.46 | 0.87 / 0.95 / 0.66 |
+| | HistGB | 0.94 / 0.94 / 0.29 | 0.94 / 0.94 / 0.30 | 0.92 / 0.94 / 0.39 |
+| | NGRAM | 0.97 / 0.93 / 0.15 | 0.97 / 0.94 / 0.16 | 0.96 / 0.93 / 0.19 |
+| GramBeddings -> PhiUSIIL all | LR | 0.84 / 0.53 / 0.01 | 0.77 / 0.53 / 0.02 | 0.75 / 0.67 / 0.30 |
+| | NGRAM | 0.92 / 0.50 / 0.00 | 0.86 / 0.52 / 0.00 | 0.83 / 0.68 / 0.16 |
+| | HistGB | 0.83 / 0.53 / 0.00 | 0.82 / 0.53 / 0.00 | 0.81 / 0.54 / 0.01 |
+
+**What it shows**
+1. **Trees do not rely on `has_www` to separate PhiUSIIL.** Without the scheme and without `www`, RF and HistGB still score AUROC 1.00 in distribution. My earlier guess that they recover through `has_www` is wrong: other URL-form columns (path length, URL and host length, dot count; all legit PhiUSIIL URLs are bare homepages) carry it. This matches script 06, where 18 URL columns alone gave AUROC 0.9985.
+2. **`has_www` is real signal on GramBeddings, not only a PhiUSIIL shortcut.** GramBeddings in-distribution AUROC drops 0.02-0.04 (LR 0.91 -> 0.87, HistGB 0.94 -> 0.92) and FPR rises (LR 0.46 -> 0.66) without it.
+3. **PhiUSIIL-trained transfer gets no better:** AUROC on GramBeddings falls further for HistGB (0.75 -> 0.67), RF (0.61 -> 0.56) and NGRAM (0.87 -> 0.84), and the fixed threshold still flags 97-98% of legitimate URLs.
+4. **GramBeddings-trained linear and text models shift operating point on PhiUSIIL:** LR FPR 0.02 -> 0.30 and NGRAM 0.00 -> 0.16 while recall rises (0.53 -> 0.67, 0.52 -> 0.68). Trees barely move. The headline conclusion (the fixed threshold does not transfer) is unchanged.
+
+Caveats: means over 5 seeds only; MLP is noisy, so I only quote effects well above that noise. Removing `has_www` and the scheme does not remove all traces (host length, URL length and dot count still encode them), so this is a partial ablation.
+
 **What the n-gram model and the ablation add**
 1. **A stronger URL-only model helps ranking in one direction only.** On GramBeddings, NGRAM is the best in-distribution (AUROC 0.97 vs 0.91-0.94) and the best GramBeddings -> PhiUSIIL transfer (0.92 vs 0.83-0.91). It is not better PhiUSIIL -> GramBeddings (0.73, same range as the feature models). Neither fixes the threshold: GramBeddings -> PhiUSIIL recall is still 0.50 at FPR 0.00.
 2. **PhiUSIIL's near-perfect in-distribution score depends on the scheme for linear and text models.** Without it, LR drops to AUROC 0.93 with FPR 0.41 and NGRAM to 0.91 with FPR 0.57. Trees (RF 0.99, HistGB 1.00) recover, presumably through `has_www` and other URL-form features; not verified.
@@ -331,7 +357,7 @@ AUROC / recall / FPR at the validation-fixed threshold, mean of 5 seeds (full me
 4. **Part of the GramBeddings -> PhiUSIIL ranking success comes from the scheme.** LR 0.84 -> 0.77, MLP 0.91 -> 0.82, NGRAM 0.92 -> 0.86 when the scheme is removed, because every PhiUSIIL legitimate URL is https. Trees are unchanged (0.82-0.83). So the PhiUSIIL-as-target numbers are partly inflated by a PhiUSIIL artifact.
 5. GramBeddings in-distribution results do not change without the scheme (no shortcut there).
 
-**Caveats added:** NGRAM is untuned (one n-gram range, one feature cap). `has_www` is a second URL-form shortcut and is not ablated; a `no_scheme_no_www` variant would test whether trees rely on it. Std across seeds is large for MLP and for no-scheme LR/NGRAM on PhiUSIIL (FPR std up to 0.35).
+**Caveats added:** NGRAM is untuned (one n-gram range, one feature cap). `has_www` is ablated in the next block (`no_scheme_no_www`); it does not change the conclusions. Std across seeds is large for MLP and for no-scheme LR/NGRAM on PhiUSIIL (FPR std up to 0.35).
 
 **What this shows**
 1. **The validation-fixed threshold does not transfer, and it fails in opposite directions.** Trained on PhiUSIIL, it keeps recall (0.98) and flags 81-95% of GramBeddings legitimate URLs. Trained on GramBeddings, it keeps FPR near 0 and recall falls to 0.53-0.58 on PhiUSIIL. Source validation recall is 0.95 in every case, so the failure is invisible without a target.
@@ -357,7 +383,7 @@ AUROC / recall / FPR at the validation-fixed threshold, mean of 5 seeds (full me
 - [x] Redo old script 03/04 outputs under this protocol (script 07 supersedes them; old CSVs stay as "first pass").
 - [x] Scheme-free ablation (`is_https` dropped / scheme stripped) in script 07.
 - [x] Char n-gram reference model in script 07.
-- [ ] Optional: `no_scheme_no_www` variant, to test whether trees recover through `has_www`.
+- [x] `no_scheme_no_www` variant: trees do not rely on `has_www`; see the block above.
 - [ ] Optional: featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample.
 
 ### 3.4 Code and housekeeping
@@ -407,6 +433,7 @@ Draft written 2026-11-01: `checkpoint/checkpoint.tex` and `checkpoint/checkpoint
 | Nov 1 | DONE: char n-gram model and scheme-free ablation in Part B |
 | Nov 1 | DONE: reproduction rerun without USI / page content (script 05 `--drop`) |
 | Nov 1 | DONE: Table 3 baselines (script 09, 5 seeds, two feature sets) |
-| Nov 2-5 | Part A leftover: paper feature count; then checkpoint write-up; optional no-www ablation |
+| Nov 1 | DONE: `no_scheme_no_www` ablation |
+| Nov 2-5 | Checkpoint write-up review |
 | Nov 7-9 | Tables, write-up, update the log |
 | Nov 10 | Checkpoint |

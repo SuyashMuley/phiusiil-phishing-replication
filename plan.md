@@ -3,7 +3,7 @@
 Project: Replicating and critiquing PhiUSIIL phishing URL detection under dataset shift (Replication and Critique track).
 Primary paper: Prasad and Chandra 2024, Computers & Security 136.
 Proposal: `proposal/ML_ProjectProposal.pdf` (feedback score 10/20, feasibility "High").
-Last updated: 2026-10-24. Checkpoint: **2026-11-10**. Diversity experiments: late November. Final report: **2026-12-08**.
+Last updated: 2026-11-01. Checkpoint: **2026-11-10**. Diversity experiments: late November. Final report: **2026-12-08**.
 
 Detailed earlier notes live in `MD/project_log.md`; verified literature is in `MD/sota_verified_table.md`. Run scripts from `Project/` with `.venv/bin/python scripts/<name>.py`.
 
@@ -41,14 +41,14 @@ Detailed earlier notes live in `MD/project_log.md`; verified literature is in `M
 - [x] At threshold 0.5, PhiUSIIL-trained models flag about 98.6% of GramBeddings legit URLs as phishing, so F1 and FPR at 0.5 are not meaningful on external data.
 - [x] PhishTank + Tranco test judged confounded (synthetic `https://`, homepage artifact). Not citable as generalization.
 
-### Known weaknesses of what exists
-- One seed, one split, no tuning.
-- 22 hand-built features only; GramBeddings sampled to 100k.
-- No original-feature reproduction against the paper's published numbers yet (only the rule and a quick GB run).
-- No incremental learning (`partial_fit`) run yet.
-- Thresholds so far are 0.5 or oracle (FPR at 95% recall computed on the target itself), not validation-fixed.
-- Class mix and size are not matched across training sets.
-- Nothing yet shows how `URLSimilarityIndex` is built.
+### Known weaknesses of the first pass (Oct 1), and where each was addressed
+- One seed, one split, no tuning -> 5 seeds (shuffled orders for Part A, seeds 0-4 for Part B); models are still untuned.
+- 22 hand-built features only; GramBeddings sampled to 100k -> still true; the 800k featurization is deferred until after the checkpoint (3.3).
+- No original-feature reproduction against the paper -> done (3.0, 3.1: Tables 3, 5, 6, 7).
+- No incremental learning (`partial_fit`) run -> done (3.1).
+- Thresholds were 0.5 or oracle -> validation-fixed 95%-recall thresholds in Part B (3.3).
+- Class mix and size not matched across training sets -> matched pool size and 50% phishing share, logged (3.3).
+- Nothing showed how `URLSimilarityIndex` is built -> paper read, shortcut check done (3.0, 3.2).
 
 ---
 
@@ -387,9 +387,9 @@ Caveats: means over 5 seeds only; MLP is noisy, so I only quote effects well abo
 - [ ] Deferred until after the checkpoint (decision 2026-11-01): featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample. Featurizing takes about 20 s; the Part B rerun is estimated at 30-60 min (not measured) and changes every Part B number, so redo tables, report and README together. Fold it into the diversity experiment.
 
 ### 3.4 Code and housekeeping
-- [ ] New scripts, numbered after the existing ones (05 onward), one per piece: `05_reproduce_phiusiil.py`, `06_shortcut_ablation.py`, `07_transfer_matched.py`, with a shared seed and split helper in `common.py`.
-- [ ] Write every result table to `results/` as CSV.
-- [ ] Update `MD/project_log.md` after each step.
+- [x] New scripts 05 to 09 (`05_reproduce_phiusiil.py`, `06_shortcut_ablation.py`, `07_transfer_matched.py`, `08_summarize_transfer.py`, `09_table3_baselines.py`), with shared sampling, split and threshold helpers in `common.py`.
+- [x] Write every result table to `results/` as CSV.
+- [x] `MD/project_log.md` updated through section 17 (2026-11-01); keep updating after each step.
 
 ### 3.5 Checkpoint report or slides content
 

@@ -1,0 +1,91 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\usepackage{titlesec}
+
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\pagestyle{plain}
+\newcommand{\tsz}{\footnotesize}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries Project Progress Checkpoint: Replicating and Critiquing PhiUSIIL Phishing URL Detection Under Dataset Shift}\\[2pt]
+Project track: Replication and Critique \quad Checkpoint: November 10, 2026
+\end{center}
+
+\section{Summary of progress}
+All components of the project are now in place and running. The paper's pipeline (Prasad and Chandra, 2024) is reproduced end to end, the dataset checks that test what drives its reported result are done, and the URL-only transfer experiments are built with the controls requested in the proposal feedback. The code, result tables and a progress tracker are in a GitHub repository (\texttt{phiusiil-phishing-replication}). This report describes what exists, the conceptual issues I have run into, and what has changed since the proposal. It does not discuss performance.
+
+\textbf{Hardware and timing.} Everything runs on one laptop (Apple M4, 10 cores, 24 GB RAM, CPU only, no GPU); all runs so far completed without memory problems, and the data take about 300 MB on disk. Measured run times: the paper's incremental pipeline takes about 3 minutes per run (five runs in parallel finish in about 5), its pre-training experiment about 20 minutes per split mode, the batch baselines about 3 minutes for five seeds in parallel, the dataset checks about 1.5 minutes, and the full Part B transfer run (five seeds, five models, three feature sets) about 7 minutes. Featurizing all 800k GramBeddings URLs takes about 20 seconds; rerunning Part B at that scale is estimated at 30 to 60 minutes (not yet measured). The scripts take \texttt{--max-rows} for a quick check, and the commands to reproduce each step are in the repository README.
+
+\section{Response to proposal feedback}
+\begin{center}
+\tsz
+\begin{tabular}{@{}p{2.2in}p{4.7in}@{}}
+\toprule
+\textbf{Feedback} & \textbf{What I did} \\
+\midrule
+Is the similarity score using the answer, or a dataset shortcut? &
+Read the paper's definition (Sec.\ 4.1) and tested it on the released data (Section 4). I now treat it as a construction shortcut, not label leakage, and use ``shortcut'' throughout. \\
+Keep reproduction separate from URL-only transfer; control size and class mix. &
+Two separate parts with separate protocols (Sections 3 and 5). In Part B every source variant uses the same pool size and a 50\% phishing share, and I log the class and URL-type mix of every set. PhiUSIIL has no deep-link legitimate URLs, so URL type cannot be matched for it; targets are sliced by URL type instead. \\
+How does a validation-fixed threshold transfer? &
+The 95\%-recall threshold is chosen on source validation data only and applied unchanged. I report the realized recall and false-positive rate on every target, and do not tune on target labels. \\
+PhishTank supports recall only; bound the model list. &
+PhishTank is scored by recall only, paired with the false-positive rate the same threshold gives on a legitimate target. Models are capped at LR, random forest, gradient boosting, MLP, and a character n-gram reference. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Part A: reproduction of the paper's pipeline}
+The reproduction follows the paper's protocol (Sec.\ 4.2.2): initialize on the first record, then for every record predict and then \texttt{partial\_fit}, using BernoulliNB, PassiveAggressive and SGD with the paper's tuned hyperparameters and the three voting profiles (LowSecurity, BestSecurity, HighSecurity). This is a prequential test, not a held-out test. The paper's row order is not stated, so I run file order and several shuffled orders. I also run the paper's pre-training experiment (its Table 7) with both a sequential and a random pre-training split, since the paper does not say which it used, and its batch baselines (its Table 3) on a separate held-out stratified 80/20 split with five seeds. Feature selection follows the paper's description (importance above zero in an ensemble of tree models, then the top 85\% by mutual information).
+
+\textbf{Deviations.} LightGBM, XGBoost and CatBoost are not installed, so sklearn gradient boosting and extra trees stand in for the paper's feature-importance ensemble, and HistGradientBoosting stands in for its boosting rows; the Voting and Stacking baselines are not run. Mutual information is estimated on a 30k-row subsample, and features are not scaled for the incremental learners. The paper does not report its final feature count, so my selection is my own.
+
+\section{The similarity index: a construction shortcut}
+The paper defines the similarity index as a character-match score between a URL and the Open PageRank top-10M legitimate list (Sec.\ 4.1), and collects the legitimate URLs from that same list (Sec.\ 3.1). Every listed legitimate URL therefore scores exactly 100 by construction, without using labels, so ``leakage'' is the wrong word. I tested this on the released data by examining the index by class, the separability of each column on its own, simple rule baselines, and by retraining and rerunning the paper's incremental protocol with feature groups removed (the index, page content, URL-derived probabilities). Other collection artifacts also separate the classes (every legitimate URL is a bare \texttt{https://www.} homepage, and most phishing pages were captured with little content), which motivates the controls in Part B. \textbf{Limits.} A membership check against the Tranco top-1M list was inconclusive, so ``the legitimate URLs come from the list'' rests on the paper's text. For legitimate URLs the index and the homepage form are perfectly confounded, so I cannot say which a model uses.
+
+\section{Part B: URL-only transfer}
+Features are 22 URL-only lexical features, with no similarity index and no page content, extracted by one function for every dataset. Each source variant (PhiUSIIL, GramBeddings, GramBeddings homepage-only) is sampled to the same pool size at 50\% phishing and split 70/15/15 with no shared registered domain. The threshold gives 95\% recall on source validation and is applied unchanged to each target; target rows whose URL or registered domain appear in training are removed. Targets are the source test set, the other dataset (all URLs, homepage-only and deep-link-only slices) and PhishTank (recall only). Models: LR, random forest, HistGradientBoosting, MLP, and a character 2--4-gram TF-IDF logistic regression, over five seeds. Two ablations check the shortcuts directly: removing the URL scheme (\texttt{is\_https} dropped, scheme stripped for the n-gram model), and removing both the scheme and \texttt{www}. A full run takes a few minutes on a laptop.
+
+\textbf{Limits.} Training sizes match only approximately because splitting by domain makes uneven groups, GramBeddings is currently a cached 100k-row sample, and the n-gram model is untuned.
+
+\section{Conceptual issues}
+\begin{enumerate}
+\setlength\itemsep{1pt}
+\item \textbf{Matching URL type.} PhiUSIIL has no deep-link legitimate URLs, so URL type cannot be matched when it is the training source. I evaluate on slices by URL type, and train GramBeddings on all URLs and on homepage-only URLs.
+\item \textbf{Validation-fixed thresholds.} A threshold fixed on source validation data cannot be tuned on the target, so I report what it actually gives there instead of tuning it.
+\item \textbf{PhishTank has no legitimate class,} so it supports recall only. I pair it with the false-positive rate on a legitimate target at the same threshold.
+\item \textbf{No third independent two-class source yet.} The fallback is a domain-disjoint GramBeddings holdout plus the PhishTank recall check.
+\item \textbf{Details the paper leaves open} (row order, the split behind its baseline table, its final feature count, the pre-training split), so some reproduction choices are mine and are documented.
+\item \textbf{Design consideration for the diversity experiment.} If PhiUSIIL's separability comes from collection artifacts, adding it to a combined training set may add the shortcut instead of useful diversity. The planned comparison of combined versus single-source training at matched size is designed to test this.
+\end{enumerate}
+
+\section{Changes since the proposal and new ideas}
+\begin{itemize}
+\setlength\itemsep{0pt}
+\item ``Label leakage'' is replaced by ``construction shortcut'' for the similarity index, because it is built from the same list as the legitimate class and uses no labels.
+\item Reproduction and transfer are separate parts with separate protocols, following the feedback.
+\item Thresholds are fixed on source validation only, instead of being tuned on the target.
+\item The model list is bounded, and BERT and CharCNN from related work are cited instead of rerun.
+\item The PhishTank plus Tranco test is dropped because the synthetic URLs confounded it.
+\item New: ablations of the dataset artifacts (similarity index, page content, URL scheme, \texttt{www}), a character n-gram reference model, and evaluating targets sliced by URL type.
+\end{itemize}
+
+\section{Remaining plan and risks}
+\begin{tabular}{@{}p{1.1in}p{5.8in}@{}}
+\textbf{By Nov.\ 15} & Decide whether a third independent two-class source is realistic; otherwise keep the domain-disjoint GramBeddings holdout plus the PhishTank recall check. \\
+\textbf{Late Nov.} & Diversity experiment: train on PhiUSIIL alone, GramBeddings alone, and both combined at matched total size, using all 800k GramBeddings rows, and compare with the n-gram reference. Compare with Ahamed et al.\ (2026), Misiek and Hyla (2026) and Rashid et al.\ (2024), and confirm they are not in the target paper's reference list. \\
+\textbf{Dec.\ 8} & Final report, written independently. \\
+\end{tabular}
+
+\textbf{Risks.} A third source may not be available. PhiUSIIL cannot supply deep-link legitimate URLs, which limits what matched training can show. Domain-disjoint filtering removes large parts of PhishTank.
+
+\end{document}

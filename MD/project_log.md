@@ -207,3 +207,6 @@ Script 07 gained a third feature set, `no_scheme_no_www` (drops `is_https` and `
 
 ## 17. Decision (2026-11-01)
 Full 800k GramBeddings featurization and Part B rerun deferred until after the 2026-11-10 checkpoint; the checkpoint states the 100k-sample caveat instead.
+
+## 18. Check-in format (2026-11-09)
+Professor's guidance for the checkpoint: informal is fine, show feasibility and that the pieces are in place, state conceptual issues, no performance analysis, say what is changing or new. Wrote `checkpoint/checkpoint_revised.tex` / `.pdf` from the original report: same structure and tone, result tables and all performance numbers removed, sections added for conceptual issues and changes since the proposal. The earlier numbers version, `checkpoint/checkpoint.pdf`, stays as backup. (A one-page informal draft was tried and removed at the user's request.)

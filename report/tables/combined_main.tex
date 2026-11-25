@@ -1,0 +1,19 @@
+{\scriptsize\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+\textbf{Held-out source} & \textbf{Trained on} & \textbf{HistGB AUROC} & \textbf{Recall} & \textbf{FPR} & \textbf{n-gram AUROC} & \textbf{Recall} & \textbf{FPR} \\
+\midrule
+PhiUSIIL & GramBeddings alone & 0.83$\pm$0.02 & 0.53$\pm$0.04 & 0.00$\pm$0.00 & 0.92$\pm$0.02 & 0.50$\pm$0.04 & 0.00$\pm$0.00 \\
+ & PhreshPhish alone & 0.49$\pm$0.02 & 0.97$\pm$0.01 & 1.00$\pm$0.00 & 0.99$\pm$0.00 & 0.96$\pm$0.02 & 0.05$\pm$0.03 \\
+ & GramBeddings+PhreshPhish & 0.56$\pm$0.05 & 0.79$\pm$0.07 & 0.86$\pm$0.06 & 0.93$\pm$0.01 & 0.55$\pm$0.04 & 0.00$\pm$0.00 \\
+\addlinespace
+GramBeddings & PhiUSIIL alone & 0.76$\pm$0.03 & 0.98$\pm$0.01 & 0.81$\pm$0.05 & 0.73$\pm$0.01 & 0.95$\pm$0.01 & 0.66$\pm$0.02 \\
+ & PhreshPhish alone & 0.73$\pm$0.02 & 0.94$\pm$0.02 & 0.68$\pm$0.06 & 0.75$\pm$0.00 & 0.91$\pm$0.03 & 0.57$\pm$0.05 \\
+ & PhiUSIIL+PhreshPhish & 0.74$\pm$0.01 & 0.94$\pm$0.01 & 0.65$\pm$0.03 & 0.74$\pm$0.01 & 0.92$\pm$0.00 & 0.56$\pm$0.01 \\
+\addlinespace
+PhreshPhish & PhiUSIIL alone & 0.67$\pm$0.04 & 0.88$\pm$0.03 & 0.73$\pm$0.13 & 0.76$\pm$0.01 & 0.80$\pm$0.05 & 0.40$\pm$0.04 \\
+ & GramBeddings alone & 0.80$\pm$0.01 & 0.77$\pm$0.03 & 0.28$\pm$0.03 & 0.83$\pm$0.01 & 0.68$\pm$0.07 & 0.18$\pm$0.02 \\
+ & PhiUSIIL+GramBeddings & 0.83$\pm$0.00 & 0.85$\pm$0.02 & 0.32$\pm$0.03 & 0.86$\pm$0.01 & 0.77$\pm$0.03 & 0.20$\pm$0.02 \\
+\bottomrule
+\end{tabular}
+}

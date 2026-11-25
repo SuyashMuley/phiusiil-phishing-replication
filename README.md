@@ -24,7 +24,11 @@ due 2026-12-08. The current draft is [`report/report.pdf`](report/report.pdf).
    (PhiUSIIL-trained models flag most URLs elsewhere; GramBeddings-trained models miss about half of PhiUSIIL phishing).
    An oracle threshold chosen on the target would not repair most pairs. Pair-level AUROC varies widely by model, so the
    recall/FPR pattern is the result to rely on.
-4. **The sources differ in ways that more data from the same source is unlikely to fix.** A classifier recovers the source
+4. **Pooling two sources at the same total size does not give a transferable operating point either.** Leave-one-source-out
+   training (half of the pool from each of two sources, threshold fixed on the pooled validation data) never did worse on
+   false-positive rate than the worse single source, beat both single sources on AUROC in 15 of 30 model and feature-set
+   cells (never with PhiUSIIL held out), and mostly moved the recall/FPR trade-off instead of improving the ranking.
+5. **The sources differ in ways that more data from the same source is unlikely to fix.** A classifier recovers the source
    from the URL alone within a class (AUROC 0.85-1.00; 0.71 for PhreshPhish against PhishTank phishing), and normalizing URL
    formatting (no scheme, `www`, case or trailing slash) does not improve transfer. The claim about sample size is an
    argument from these measurements; the full 800,000-row GramBeddings featurization was not run.
@@ -97,6 +101,13 @@ nice .venv/bin/python scripts/07_transfer_matched.py --seeds 0,1,2,3,4 --out res
 Script 07's default output is `results/transfer_runs.csv`, which holds the earlier three-source run; pass `--out` to keep
 both. The three older sources reproduce that file exactly in the v2 run.
 
+**Combined-source (diversity) experiment**
+
+```
+nice .venv/bin/python scripts/21_combined_sources.py --seeds 0,1,2,3,4   # about 4.5 min -> results/combined_runs.csv
+.venv/bin/python scripts/22_summarize_combined.py       # results/combined_vs_single.csv, combined_in_source.csv
+```
+
 **Why the sources differ (A1-A5)**
 
 ```
@@ -119,7 +130,7 @@ cd report && tectonic report.tex
 ```
 
 Scripts 01-04 are the first pass from before the proposal feedback (single seed, untuned) and are kept for the record;
-scripts 05-19 are the experiments that the checkpoint and the report use.
+scripts 05-22 are the experiments that the checkpoint and the report use.
 
 ## Deviations from the paper
 

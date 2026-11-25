@@ -139,4 +139,19 @@ for v in ["PhiUSIIL/all", "GramBeddings/all", "GramBeddings/homepage", "PhreshPh
         r = cm[(cm.variant == v) & (cm.set == s)].iloc[0]
         rows.append([v if s == "train" else "", s, f"{int(r.n):,}".replace(",", "{,}"), f"{r.phish_share:.2f}", f"{r.homepage_share_phish:.2f}", f"{r.homepage_share_legit:.2f}"])
 emit("class_mix", ["Trained on", "Set", "Rows", "Phishing share", "Homepage share, phishing", "Homepage share, legitimate"], rows, "llrrrr", size=r"\footnotesize\setlength{\tabcolsep}{4pt}", rule_after=(4, 9, 14))
+# ---- Combined-source (diversity) experiment: held-out source, single sources vs the pooled pair (HistGB and char n-gram, features all)
+cs = pd.read_csv(R + "combined_vs_single.csv")
+cs = cs[cs.featset == "all"]
+rows = []
+for held in ["PhiUSIIL", "GramBeddings", "PhreshPhish"]:
+    g = cs[cs.heldout == held]
+    order = [t for t in g.trained_on.unique() if "alone" in t] + [t for t in g.trained_on.unique() if "+" in t]
+    for i, t in enumerate(order):
+        r = []
+        for m in ("HistGB", "NGRAM"):
+            x = g[(g.model == m) & (g.trained_on == t)].iloc[0]
+            r += [x.auroc, x.recall, x.fpr]
+        rows.append([held if i == 0 else "", t] + r)
+emit("combined_main", ["Held-out source", "Trained on", "HistGB AUROC", "Recall", "FPR", "n-gram AUROC", "Recall", "FPR"], rows, "llrrrrrr",
+     size=r"\scriptsize\setlength{\tabcolsep}{3.5pt}", rule_after=(2, 5))
 print("wrote", T)

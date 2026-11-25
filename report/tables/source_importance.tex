@@ -1,0 +1,17 @@
+{\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrlrl}
+\toprule
+\textbf{Class} & \textbf{Pair of sources} & \textbf{Homepage AUROC} & \textbf{Top features, homepages} & \textbf{Deep AUROC} & \textbf{Top features, deep URLs} \\
+\midrule
+legit & GramBeddings vs PhreshPhish & 0.87 & path\_len, is\_https & 0.87 & is\_https, path\_len \\
+legit & PhiUSIIL vs GramBeddings & 0.96 & has\_www, is\_https & n/a & n/a \\
+legit & PhiUSIIL vs PhreshPhish & 1.00 & path\_len, n\_dots & n/a & n/a \\
+phish & GramBeddings vs PhishTank & 0.86 & is\_https, path\_len & 0.94 & is\_https, n\_subdomains \\
+phish & GramBeddings vs PhreshPhish & 0.89 & path\_len, is\_https & 0.92 & path\_depth, is\_https \\
+phish & PhiUSIIL vs GramBeddings & 0.89 & path\_len, is\_https & 0.85 & entropy, path\_depth \\
+phish & PhiUSIIL vs PhishTank & 0.86 & has\_www, is\_https & 0.86 & url\_len, entropy \\
+phish & PhiUSIIL vs PhreshPhish & 0.85 & is\_https, has\_www & 0.82 & entropy, path\_len \\
+phish & PhreshPhish vs PhishTank & 0.70 & path\_len, is\_https & 0.60 & path\_len, host\_len \\
+\bottomrule
+\end{tabular}
+}

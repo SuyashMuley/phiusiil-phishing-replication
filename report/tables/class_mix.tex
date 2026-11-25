@@ -1,0 +1,31 @@
+{\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Trained on} & \textbf{Set} & \textbf{Rows} & \textbf{Phishing share} & \textbf{Homepage share, phishing} & \textbf{Homepage share, legitimate} \\
+\midrule
+PhiUSIIL/all & train & 8{,}407 & 0.51 & 0.73 & 1.00 \\
+ & val & 1{,}487 & 0.40 & 0.66 & 1.00 \\
+ & source test & 1{,}772 & 0.52 & 0.72 & 1.00 \\
+ & GramBeddings all & 92{,}128 & 0.46 & 0.09 & 0.15 \\
+ & PhreshPhish all & 78{,}380 & 0.37 & 0.43 & 0.07 \\
+\addlinespace
+GramBeddings/all & train & 8{,}352 & 0.52 & 0.11 & 0.15 \\
+ & val & 1{,}742 & 0.44 & 0.11 & 0.13 \\
+ & source test & 1{,}572 & 0.46 & 0.13 & 0.16 \\
+ & PhiUSIIL all & 228{,}354 & 0.41 & 0.73 & 1.00 \\
+ & PhreshPhish all & 94{,}152 & 0.48 & 0.46 & 0.07 \\
+\addlinespace
+GramBeddings/homepage & train & 7{,}909 & 0.48 & 1.00 & 1.00 \\
+ & val & 1{,}447 & 0.38 & 1.00 & 1.00 \\
+ & source test & 2{,}310 & 0.63 & 1.00 & 1.00 \\
+ & PhiUSIIL all & 214{,}504 & 0.37 & 0.69 & 1.00 \\
+ & PhreshPhish all & 91{,}798 & 0.47 & 0.47 & 0.07 \\
+\addlinespace
+PhreshPhish/all & train & 7{,}907 & 0.51 & 0.38 & 0.08 \\
+ & val & 1{,}638 & 0.35 & 0.42 & 0.06 \\
+ & source test & 2{,}121 & 0.58 & 0.69 & 0.08 \\
+ & PhiUSIIL all & 208{,}515 & 0.36 & 0.72 & 1.00 \\
+ & GramBeddings all & 94{,}172 & 0.48 & 0.11 & 0.15 \\
+\bottomrule
+\end{tabular}
+}

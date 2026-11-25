@@ -107,4 +107,36 @@ for s in ["PhiUSIIL", "GramBeddings", "PhreshPhish", "PhishTank"]:
                          f"{a.share_of_class_homepage:.2f}", f"{h.trailing_slash:.2f}", f"{h.www:.2f}", f"{h.https:.2f}", f"{a.https:.2f}"])
 emit("source_profile", ["Source", "Class", "Rows", "Homepage share", "Trailing / (hp)", "www (hp)", "https (hp)", "https (all)"], rows, "llrrrrrr",
      size=r"\footnotesize\setlength{\tabcolsep}{4pt}")
+# ---- Which features separate the sources (script 20): top two per class, pair and URL type
+ti = pd.read_csv(R + "source_importance_top.csv")
+rows = []
+for (c, p), g in ti.groupby(["cls", "pair"], sort=False):
+    cells = []
+    for ut in ("homepage", "deep"):
+        h = g[g.utype == ut].sort_values("rank")
+        cells += [f"{h.auroc.iloc[0]:.2f}", ", ".join(h.feature.iloc[:2])] if len(h) else ["n/a", "n/a"]
+    rows.append([c, p] + cells)
+emit("source_importance", ["Class", "Pair of sources", "Homepage AUROC", "Top features, homepages", "Deep AUROC", "Top features, deep URLs"], rows, "llrlrl", size=r"\footnotesize\setlength{\tabcolsep}{4pt}")
+
+# ---- PR-AUC with the phishing share of each target (PR-AUC depends on prevalence, so it is not comparable across targets)
+pr = pd.read_csv(R + "transfer_runs_v2.csv")
+pr = pr[(pr.featset == "all") & (pr.model == "HistGB")]
+rows = []
+for v in ["PhiUSIIL/all", "GramBeddings/all", "GramBeddings/homepage", "PhreshPhish/all"]:
+    src = v.split("/")[0]
+    for t, nm in [("source test", "in-source test")] + [(f"{o} all", o) for o in ("PhiUSIIL", "GramBeddings", "PhreshPhish") if o != src]:
+        g = pr[(pr.variant == v) & (pr.target == t)]
+        rows.append([v.replace("/all", "").replace("/homepage", " (homepage only)") if nm == "in-source test" else "", nm, f"{(g.pos / g.n).mean():.2f}",
+                     f"{g.auroc.mean():.2f}±{g.auroc.std():.2f}", f"{g.pr_auc.mean():.2f}±{g.pr_auc.std():.2f}"])
+emit("transfer_prauc", ["Trained on", "Tested on", "Phishing share", "AUROC", "PR-AUC"], rows, "llrrr", rule_after=(2, 5, 8))
+
+# ---- Class and URL-type mix of every set used in Part B (seed 0, from the class-mix log)
+cm = pd.read_csv(R + "transfer_class_mix_v2.csv")
+rows = []
+for v in ["PhiUSIIL/all", "GramBeddings/all", "GramBeddings/homepage", "PhreshPhish/all"]:
+    src = v.split("/")[0]
+    for s in ["train", "val", "source test"] + [f"{o} all" for o in ("PhiUSIIL", "GramBeddings", "PhreshPhish") if o != src]:
+        r = cm[(cm.variant == v) & (cm.set == s)].iloc[0]
+        rows.append([v if s == "train" else "", s, f"{int(r.n):,}".replace(",", "{,}"), f"{r.phish_share:.2f}", f"{r.homepage_share_phish:.2f}", f"{r.homepage_share_legit:.2f}"])
+emit("class_mix", ["Trained on", "Set", "Rows", "Phishing share", "Homepage share, phishing", "Homepage share, legitimate"], rows, "llrrrr", size=r"\footnotesize\setlength{\tabcolsep}{4pt}", rule_after=(4, 9, 14))
 print("wrote", T)

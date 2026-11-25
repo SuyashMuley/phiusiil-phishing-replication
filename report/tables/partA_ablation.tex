@@ -1,0 +1,12 @@
+{\footnotesize
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Features} & \textbf{Features kept} & \textbf{Accuracy, file order} & \textbf{Accuracy, shuffled} & \textbf{F1, shuffled} & \textbf{FP / FN (shuffled mean)} \\
+\midrule
+all & 43 & 0.9934 & 0.9915 (0.0002) & 0.9926 (0.0002) & 1564 / 447 \\
+drop USI & 42 & 0.9932 & 0.9914 (0.0001) & 0.9925 (0.0001) & 1671 / 364 \\
+drop page content & 19 & 0.9717 & 0.9726 (0.0004) & 0.9760 (0.0003) & 3408 / 3062 \\
+drop USI and page content & 18 & 0.9879 & 0.9870 (0.0005) & 0.9887 (0.0004) & 2046 / 1014 \\
+\bottomrule
+\end{tabular}
+}

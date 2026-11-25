@@ -384,7 +384,7 @@ Caveats: means over 5 seeds only; MLP is noisy, so I only quote effects well abo
 - [x] Scheme-free ablation (`is_https` dropped / scheme stripped) in script 07.
 - [x] Char n-gram reference model in script 07.
 - [x] `no_scheme_no_www` variant: trees do not rely on `has_www`; see the block above.
-- [ ] Deferred until after the checkpoint (decision 2026-11-01): featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample. Featurizing takes about 20 s; the Part B rerun is estimated at 30-60 min (not measured) and changes every Part B number, so redo tables, report and README together. Fold it into the diversity experiment.
+- [ ] Demoted to optional after the 11/20 feedback (a larger dataset will not resolve the source / URL-type differences; see 3b): featurize all 800k GramBeddings rows so targets and homepage-only training sets are not capped by the 100k sample. Featurizing takes about 20 s; the Part B rerun is estimated at 30-60 min (not measured) and changes every Part B number, so redo tables, report and README together. Fold it into the diversity experiment.
 
 ### 3.4 Code and housekeeping
 - [x] New scripts 05 to 09 (`05_reproduce_phiusiil.py`, `06_shortcut_ablation.py`, `07_transfer_matched.py`, `08_summarize_transfer.py`, `09_table3_baselines.py`), with shared sampling, split and threshold helpers in `common.py`.
@@ -392,6 +392,8 @@ Caveats: means over 5 seeds only; MLP is noisy, so I only quote effects well abo
 - [x] `MD/project_log.md` updated through section 17 (2026-11-01); keep updating after each step.
 
 ### 3.5 Checkpoint report or slides content
+
+Version for the Nov 10 check-in (professor's guidance: show feasibility and that the pieces are in place, state conceptual issues, no performance analysis, say what is changing or new): `checkpoint/checkpoint_revised.tex` and `.pdf` (2 pages, formal style, no result numbers). The earlier version with all result tables, `checkpoint/checkpoint.pdf`, is kept as backup.
 
 Draft written 2026-11-01: `checkpoint/checkpoint.tex` and `checkpoint/checkpoint.pdf` (2 pages, same style as the proposal). Needs a read-through and the course's required format check; numbers come from the tables in this file.
 
@@ -403,9 +405,178 @@ Draft written 2026-11-01: `checkpoint/checkpoint.tex` and `checkpoint/checkpoint
 
 ---
 
+## 3b. Checkpoint feedback (11/20) and revised priorities (2026-11-23)
+
+Feedback: (1) good clarification of shortcut vs label leakage; the transfer study now looks like the main contribution. (2) Show the results and explain the remaining source / URL-type differences; a larger dataset alone will not resolve those. Keep thresholds fixed from source validation.
+
+What it changes:
+- **The transfer study (Part B) is the main contribution;** the diversity experiment is secondary.
+- **Explaining the source / URL-type differences is now the main open work.** Part B shows the failure; the report has to say why.
+- **The 800k GramBeddings rerun is demoted** to an optional robustness check (it does not address the stated problem).
+- **Thresholds stay fixed on source validation.** Oracle numbers (`oracle_fpr_at_95rec`) stay out of every headline table.
+- **The final report must show results** (the checkpoint deliberately did not).
+
+Quick profile run 2026-11-23 (`url_type`; 100k GramBeddings sample) showing that even the "homepage" URL type differs by source and class:
+
+| Source / class | Homepage share | Homepage URLs ending with `/` | Homepage `www` | Homepage `https` |
+|---|---:|---:|---:|---:|
+| PhiUSIIL legit | 1.000 | 0.000 | 1.000 | 1.000 |
+| PhiUSIIL phishing | 0.716 | 0.437 | 0.536 | 0.393 |
+| GramBeddings legit | 0.151 | 0.530 | 0.393 | 0.492 |
+| GramBeddings phishing | 0.117 | 0.991 | 0.100 | 0.449 |
+| PhishTank phishing | 0.365 | 0.806 | 0.026 | 0.820 |
+
+So a trailing slash (path length 1 in the 22 features) is a formatting artifact that points toward "phishing" in all three sources (PhiUSIIL legit homepages never end with `/`; 99% of GramBeddings phishing homepages do), and `www` / `https` composition differs by source even within the homepage type. Homepage-only GramBeddings training may learn the slash. This is a first look, not yet a result.
+
+**Revised task list**
+
+A. Explain the source / URL-type differences (core). Status 2026-11-23: not started; held at the user's request until the third-source question is settled; the user has not yet said when to start.
+
+- [x] A1. DONE 2026-11-25. Source profile table per dataset x class x URL type: trailing slash, `www`, `https`, length, TLD mix (`scripts/12_source_profile.py`, `results/source_profile.csv`; PhreshPhish added).
+- [x] A2. DONE 2026-11-25 (AUROC only; top features not extracted). Source discriminator (adversarial validation): within each class, can a model tell the sources apart? `scripts/13_source_discriminator.py`, `results/source_discriminator.csv`. Results in "A1/A2 results" below.
+- [x] A3. DONE 2026-11-25 (5 seeds, 5 models; results in "A3 and cross-model results" below). Code notes: `scripts/14_build_canonical_cache.py` writes `data/cache/*_canon.pkl` (canonical URL = strip, lowercase, no scheme, no leading www., no trailing /; features recomputed; is_https and has_www become constant 0); `scripts/07_transfer_matched.py --canonical` reads them (NGRAM reads the canonical text; default out `results/transfer_runs_canon.csv`, default featset `all`). Row selection, homepage/deep type and seen-URL filters still use the original URL. Smoke run (LR, seed 0) works. To run after the v2 job: `PYTHONPATH=scripts nice .venv/bin/python scripts/07_transfer_matched.py --canonical --seeds 0,1,2,3,4`. Original: lowercase, strip scheme, leading `www.` and trailing `/` before extracting features (and for NGRAM).
+- [~] A4. CODE AND SEED-0 FIGURES DONE 2026-11-25, 5-seed not needed. `07 --save-scores` stores seed-0 scores (feature set all, LR and HistGB) in `results/scores_seed0.npz`; `scripts/15_plot_scores.py` draws `results/fig_scores_HistGB.png` and `results/fig_scores_LR.png` (rows = training source, columns = source validation, source test, other datasets, PhishTank; dashed line = threshold fixed at 95% recall on source validation). Original: save scores for seed 0 and plot source-validation vs target score distributions with the fixed threshold. Explains the opposite failure directions.
+- [x] A5. DONE 2026-11-25 (dataset page and GitHub README/Dataset.md read through a subagent; see "A5 results" below). Most collection details are NOT stated, so the report must not claim them.
+
+B. Show the results:
+- [x] B1. Part B DONE 2026-11-25: `scripts/16_final_tables_figures.py` writes `results/final_tables.md` and `results/final_table_{main,slices,phishtank_recall,canonical}.csv` (5-seed mean±sd, fixed-threshold numbers; also the source discriminator table). Part A DONE 2026-11-25: `scripts/17_final_table_partA.py` computes Tables 5, 6, 3, 7 and the feature-group ablation from the per-run CSVs (file order and 4 shuffled orders, mean and sample sd; Table 3 over 5 seeds) into `results/final_partA_tables.md` and `results/final_partA_{table5,table6,ablation,table3,table7}.csv`; it cross-checks against `repro_ablation_summary.csv` and `table3_summary.csv` (no mismatches above 5e-4; Table 7 mean abs gap 0.0004 sequential, 0.0005 random, same as 3.1). Original: final Part A and Part B tables with mean and std over seeds, fixed-threshold numbers only.
+- [~] B2. Done 2026-11-25: `results/fig_operating_points.png` (recall vs FPR at the fixed threshold, per training source and model), `results/fig_canonical_vs_raw.png`, `results/fig_scores_HistGB.png` / `fig_scores_LR.png` (A4). Dataset colors are fixed (PhiUSIIL blue #2a78d6, GramBeddings orange #eb6834, PhreshPhish aqua #1baf7a; first three validated slots of the dataviz palette; light mode only). Not built: a source-profile (A1) figure (the A1/A2 tables exist). Original: Figures: transfer matrix (AUROC, recall, FPR by train -> target), score distributions (A4), source profile (A1). Use the dataviz skill.
+
+C. Diversity experiment (secondary), needs a decision:
+- [~] C1. **Steps 2-4 DONE 2026-11-25 (see "C1 results" below); step 5 (third-source transfer run) DONE 2026-11-25 as transfer v2 (PhreshPhish as target and as source).** **Decision 2026-11-23: option 1, find and vet a third independent two-class source.** Without one there is no independent target for combined training (only per-source held-out sets and PhishTank recall). Vetting done on paper (details below, "C1 vetting"): best candidate PhreshPhish; LegitPhish weak; D4V rejected; others unverified. Still to do, in order: (1) send the questions to the professor (draft message written 2026-11-23); (2) install `pyarrow` and test a column-pruned read of one PhreshPhish shard; (3) pull `url`/`label`/`date` into `data/phreshphish/`; (4) profile it and measure URL and registered-domain overlap with PhiUSIIL, GramBeddings and the PhishTank snapshot; (5) only if overlap is small, use it as a third source with the same protocol (matched pools, domain-disjoint splits, thresholds fixed on source validation). If it fails the overlap check or cannot be read in time, fall back to option 2 (combined training with a pooled-source validation threshold, reported on per-source held-out sets, URL-type slices and PhishTank recall only, clearly caveated). Threshold rule for any combined or third-source run: fixed on the training sources' pooled validation data, never on the target.
+
+**C1 vetting of a third independent two-class source (2026-11-23).** Read via search results, dataset pages and subagent reads; several papers were blocked (ScienceDirect 403, ResearchGate 403, PMC bot challenge), so "unverified" marks what rests on summaries or snippets. Nothing has been downloaded or checked against our data yet.
+
+| Candidate | Fit | Main reasons |
+|---|---|---|
+| **PhreshPhish** (Hugging Face `phreshphish/phreshphish`, arXiv 2507.10854) | **Best candidate, conditional** | Collected Jul 2024 to Dec 2025 (later than PhiUSIIL's 2022-23). Phishing from PhishTank, APWG eCrime Exchange and NetCraft. Benign from Webroot browsing telemetry plus Google search results for targeted brands, explicitly not Tranco/Alexa or Common Crawl, so benign URLs likely include deep links (paper summary: median path length 29 benign vs 1 phishing; unverified, check the paper's Fig. 6; the HF viewer sample shows benign URLs with paths). 666,315 rows: train 498,255 (276,729 benign, 221,526 phish), test 168,060 (91,260 benign, 76,800 phish; temporal split, leakage-filtered). Labels via human-in-the-loop clustering; the authors say they do not claim it is error-free (redirects to brand pages can be mislabeled; scrapable pages may be easier). CC BY 4.0, "anti-phishing research only". Columns: sha256, url, html, label, target, date, lang, lang_score. |
+| LegitPhish (Mendeley hx4m73v2sf, Data in Brief 2025) | Weak | 101,219 URLs stated, but 63,678 phishing + 37,540 legitimate = 101,218. Phishing from URLHaus (a malware-distribution feed) plus "verified" repositories. Legitimate URLs only from Wikipedia and Stack Overflow, so very low domain diversity (a model can learn the two sites). CC BY 4.0. Paper unread. A derivative, PhiLegit-100K, merges it with PhiUSIIL: avoid. |
+| PhishBench-External D4V (Mendeley 2ctjcnm9kn) | Reject | 1,000 rows, Tranco legit (domain-level) plus PhishTank, a 27-feature table, label column has three values. |
+| "Realistic Large-Scale Dataset" (579,920 URLs, legit with deep links) | Unverified | Paper blocked, no download link found. |
+| ISCX-URL2016 | Backup, only snippet-level | 2016; benign from Alexa (about 35k), phishing from OpenPhish (about 10k); old, so time and source differences are confounded; OpenPhish overlap with PhiUSIIL possible. |
+
+PhreshPhish specifics to resolve before using it:
+- **Size:** 36.6 GB in total (train 27.4 GB, test 9.2 GB; shards of about 350 MB), almost all of it HTML. `url`, `label` and `date` are small. The dataset-viewer rows API returns HTML too (about 730 KB for 2 rows), so it is not a bulk route. The practical route is a column-pruned read of the parquet shards (`url`, `label`, `date` only); not yet tested. A direct shard request redirects (HTTP 302) to a CDN; anonymous range reads are unverified.
+- **Independence:** phishing partly from PhishTank like PhiUSIIL and our PhishTank snapshot, so URL and registered-domain overlap is possible. Measure it (exact URL, eTLD+1) against PhiUSIIL, GramBeddings and the PhishTank snapshot before calling it independent.
+- **Benign bias:** browsing telemetry plus targeted-brand search results may over-represent popular and brand pages. Report URL-type and domain profiles with A1.
+- **Base rate:** the test split is 46% phishing, which the authors call unrealistically high; we use matched 50% pools anyway.
+
+Next step if approved: install `pyarrow` into the venv (add to `requirements.txt`), test a column-pruned read of one shard, then pull `url`/`label`/`date` into `data/phreshphish/` (gitignored), profile it and measure overlap. Do not use it as a source until the overlap check is done.
+
+D. Optional: [ ] 800k GramBeddings rerun as a robustness check only, after A.
+
+E. Writing: **Draft 1 DONE 2026-11-25** (`report/outline.md`, `report/report.tex`, `report/report.pdf`, 10 pages with appendix; tables generated by `scripts/18_make_latex_tables.py` into `report/tables/`, report figure by `scripts/19_report_figures.py`; compile with `cd report && tectonic report.tex`). Still to do before submission: (a) complete reference [5] Rahman et al. (title, first names) and [8] GramBeddings paper (authors, venue, year; the repo README gives only the title "Grambeddings: An End-To-End Neural Model for Phishing URL-Classification Through N-Gram Embeddings" and a ScienceDirect link, not fetched); (b) check the related-work sentences against the papers where readable (Ahamed 0.996-0.998 / 0.73-0.87 / FPR 0.25-0.54, Misiek and Hyla 77.8%, Rashid +0.06 F1 are abstract-level); (c) read the draft end to end and cut or expand to the course page limit (unknown); (d) decide whether to add a limitation line on LLM-assisted work if the course requires disclosure; (e) README updated 2026-11-25 for scripts 10-19, three sources, report and run commands (DONE); (f) commit and push. Original item: [ ] related-work comparison (Ahamed, Misiek and Hyla, Rashid; check against the paper's reference list), verify flagged items in `MD/sota_verified_table.md`, final report by 2026-12-08.
+
+**C1 results (2026-11-25).** `pyarrow==26.0.1` installed (added to requirements.txt). Column-pruned read works through HTTP range requests: about 0.1-0.4 MB per shard instead of 55-400 MB, 56 shards (train and test splits), all 666,315 rows pulled into `data/phreshphish/phreshphish_url_label_date.csv` (url, label, date, split, shard; gitignored with data/). Counts match the dataset card (298,326 phish, 367,989 benign; all URLs unique; dates 2024-07-02 to 2025-12-16). Pull script and range reader live in the scratchpad (not in the repo yet; move into scripts/ if PhreshPhish is used).
+
+Overlap with our sources (share of PhreshPhish rows found in the other source):
+
+| vs | PhreshPhish class | exact URL | registered domain |
+|---|---|---|---|
+| PhiUSIIL | phish | 0.05% | 55.0% |
+| PhiUSIIL | legit | 0.00% | 20.6% |
+| GramBeddings | phish | 0.00% | 40.0% |
+| GramBeddings | legit | 0.02% | 35.0% |
+| PhishTank snapshot | phish | 4.3% | 52.6% |
+
+Reading: URLs are independent (only the PhishTank snapshot overlaps, 4.3%, as expected since PhreshPhish draws on PhishTank). The domain overlap comes from shared hosting platforms: 884 of 63,846 phishing domains account for 164k phishing rows against PhiUSIIL (gitbook.io, webflow.io, pages.dev, google.com, weeblysite.com, vercel.app, weebly.com, github.io; top 20 domains give 75% of those rows). Our `drop_seen` removes target rows by domain, so a run would keep 134,355 phishing and 292,082 legitimate rows after removing PhiUSIIL-trained domains: enough, but it drops the hosting-platform phishing that is common in recent data, so state that caveat.
+
+Form profile (share of rows; PhreshPhish is different from both existing sources again):
+
+| source | class | homepage | https | www | trailing / | median length |
+|---|---|---|---|---|---|---|
+| PhreshPhish | legit | 0.073 | 0.978 | 0.572 | 0.344 | 55 |
+| PhreshPhish | phish | 0.449 | 0.862 | 0.071 | 0.336 | 39 |
+| PhiUSIIL | legit | 1.000 | 1.000 | 1.000 | 0.000 | 27 |
+| PhiUSIIL | phish | 0.716 | 0.487 | 0.414 | 0.365 | 34 |
+| GramBeddings | legit | 0.151 | 0.593 | 0.442 | 0.493 | 41 |
+| GramBeddings | phish | 0.119 | 0.468 | 0.139 | 0.307 | 65 |
+| PhishTank | phish | 0.365 | 0.911 | 0.042 | 0.329 | 39 |
+
+Go/no-go: PASS on independence (URL level) and on access. Still open: PhreshPhish legit are mostly deep links (92.7%) while its phishing is 44.9% homepage, so the URL-type confound runs the opposite way from PhiUSIIL; it is a useful third target for that reason, but score it with the homepage/deep slices and the no_scheme_no_www feature set, and check the paper's benign-collection description (paper-summary claims remain unverified). Pull script is now `scripts/10_pull_phreshphish.py`; cache builder `scripts/11_build_phreshphish_cache.py` wrote `data/cache/phreshphish.pkl` (100,000 rows, 50,000 per class, seed 0, dup-free, same 25 columns as gram_sample.pkl; 123 rows with empty registered domain, i.e. IP hosts). Script 07 now takes `--variants` and tests each source on every other dataset (PhreshPhish added as target and as a source `PhreshPhish/all`; matched pool unchanged at 11,666 per variant so old and new runs are comparable; PhreshPhish homepage-only source dropped because only about 3,600 legit homepages in the 50k-per-class cache). Single-seed smoke run OK (18 s for LR/RF/HistGB, featset all). Full 5-seed run started 2026-11-25 into `results/transfer_runs_v2.csv` (log `results/transfer_v2.log`; old `transfer_runs.csv` untouched). Caveat found in the smoke run: domain-disjoint splits are lumpy because a few hosting domains (gitbook.io, webflow.io, firebaseapp.com, 000webhostapp.com) hold 2-3% of a pool each; validation phishing share ranged 0.35-0.57 across sources and seeds (PhreshPhish seed 0: val 0.35, test 0.58), so single-seed fixed-threshold numbers are noisy, which is why we average 5 seeds. Next: summarize v2 (script 08 with the new file), then A1-A5 (smoke cache DONE 2026-11-25), thresholds fixed on source validation.
+
+**A1/A2 results (2026-11-25).** A1, form profile (cells that matter; full table in `results/source_profile.csv`):
+
+| source | class | homepage-only: trailing / | homepage-only: www | homepage-only: https | share of class that is homepage |
+|---|---|---|---|---|---|
+| PhiUSIIL | legit | 0.00 | 1.00 | 1.00 | 1.00 |
+| PhiUSIIL | phish | 0.44 | 0.54 | 0.39 | 0.72 |
+| GramBeddings | legit | 0.53 | 0.39 | 0.49 | 0.15 |
+| GramBeddings | phish | 0.99 | 0.10 | 0.45 | 0.12 |
+| PhreshPhish | legit | 1.00 | 0.52 | 0.98 | 0.07 |
+| PhreshPhish | phish | 0.66 | 0.07 | 0.83 | 0.45 |
+| PhishTank | phish | 0.81 | 0.03 | 0.82 | 0.37 |
+
+Same URL type, different formatting by source and class: homepage legit URLs end in "/" 0% (PhiUSIIL), 53% (GramBeddings), 100% (PhreshPhish); the phishing side shows the same spread (44%, 99%, 66%, 81%). Deep URLs also differ in length (phish median 62 / 69 / 51 / 43; legit 44 / 57 deep in GramBeddings / PhreshPhish).
+
+A2, source discriminator (HistGB, URL-only features, same n per source, domain-disjoint train/test, AUROC mean of 3 seeds; `all` / `no_scheme_no_www` / homepage only):
+
+| class | pair | all | no scheme, no www | homepage only |
+|---|---|---|---|---|
+| legit | PhiUSIIL vs GramBeddings | 0.993 | 0.988 | 0.961 |
+| legit | PhiUSIIL vs PhreshPhish | 1.000 | 1.000 | 1.000 |
+| legit | GramBeddings vs PhreshPhish | 0.864 | 0.804 | 0.872 |
+| phish | PhiUSIIL vs GramBeddings | 0.920 | 0.909 | 0.892 |
+| phish | PhiUSIIL vs PhreshPhish | 0.856 | 0.850 | 0.850 |
+| phish | PhiUSIIL vs PhishTank | 0.864 | 0.847 | 0.862 |
+| phish | GramBeddings vs PhreshPhish | 0.926 | 0.902 | 0.885 |
+| phish | GramBeddings vs PhishTank | 0.904 | 0.867 | 0.856 |
+| phish | PhreshPhish vs PhishTank | 0.707 | 0.695 | 0.701 |
+
+Reading: within the same class the source is recoverable from URL-only features (legit PhiUSIIL almost perfectly, even on homepages only and without scheme/www), so the sources differ beyond phishing vs legitimate and a bigger sample of the same source cannot remove that. The closest pair is PhreshPhish vs PhishTank phishing (0.71), consistent with PhreshPhish drawing on PhishTank. Caveats: AUROC measures separability, not which feature drives it (no feature attribution yet); source also correlates with collection period and hosting mix, not only URL style; phishing-pair AUROCs vary by seed (sd up to 0.12 on homepage pairs) because of lumpy domain splits.
+
+**A5 results: what the GramBeddings pages say (read 2026-11-25; https://web.cs.hacettepe.edu.tr/~selman/grambeddings-dataset/, github.com/fcdalgic/GramBeddings and its data/Dataset.md).**
+- Stated: 400K phishing and 400K legitimate URLs (800,000 total, balanced by adjusting counts); crawled "in the long term between May 2019 to June 2021" (2.5 years), one collection session per week; legitimate URLs selected with the authors' "custom crawler" plus a manual filter of URLs with "almost identical domain information"; duplicates avoided; the authors criticize datasets whose legitimate samples are mainly homepages and whose phishing comes from PhishTank or OpenPhish over a short window.
+- NOT stated on the pages: the phishing feed or verification method, the crawler's seed list (any Alexa/Tranco/ranking list), whether its legitimate URLs are homepages or deep links (our own profile shows 15% homepage), per-class collection dates, any URL preprocessing (scheme/www/slash), any limitations.
+- Label convention: Dataset.md says -1 legitimate and 1 phish with tab delimiter; our files use the first comma-separated field with 1 = phish and 2 = legit (classes.txt), parsed in `common.read_gram`. Treat our file as the authority and do not cite Dataset.md for labels.
+- Use in the report: cite only the stated items; describe GramBeddings legit/phish provenance as "not documented" where it matters. Because of the 2019-2021 crawl, PhiUSIIL (2022-23, per our notes) and PhreshPhish (2024-25) differ in time period too, which A2 cannot separate from URL style.
+
+**A3/A4 first look (2026-11-25, single seed 0, preliminary).** A3 smoke (LR, canonical URLs vs raw): PhiUSIIL-trained in-source AUROC 0.999 -> 0.870 (its separation leaned on https/www/slash formatting); PhiUSIIL->GramBeddings AUROC 0.779 -> 0.769, PhiUSIIL->PhreshPhish 0.488 -> 0.285; GramBeddings->PhiUSIIL 0.847 -> 0.756; GramBeddings/homepage->PhreshPhish 0.192 -> 0.434; PhreshPhish->PhiUSIIL 0.948 -> 0.659. So canonicalizing does not close the transfer gap; most pairs get worse or stay about equal. SUPERSEDED by the 5-seed results in "A3 and cross-model results" below; do not cite these single-seed numbers. A4 figure (HistGB, seed 0): the PhiUSIIL-trained model puts almost every URL from the other sources at score about 1.0 (legit and phishing alike), so the validation-fixed threshold flags nearly all of them (FPR about 0.86); the GramBeddings-trained models score PhiUSIIL legit URLs near 0 and about 0.5 of PhiUSIIL phishing near 0 as well (recall 0.59), i.e. the opposite failure; PhreshPhish-trained scores almost every PhiUSIIL URL near 1 (legit and phishing) and spreads GramBeddings legit URLs between 0 and 1 with a large mass near 1. Also: matplotlib 3.11.2 added to requirements.txt; fixed a bug in script 07 where an --out name without "runs" made the class-mix file overwrite the results file.
+
+**Transfer v2 (4 sources, 5 seeds, 2026-11-25; `results/transfer_runs_v2.csv`, summary `results/transfer_summary_v2.csv` via `scripts/08_summarize_transfer.py runs.csv summary.csv`).** The three older sources reproduce the earlier `transfer_runs.csv` exactly (max abs diff 1e-6 over 1,125 matched rows). Headline, HistGB, feature set `all`, mean over 5 seeds, threshold fixed at 95% recall on source validation (oracle = FPR at 95% recall if the threshold were chosen on the target, diagnostic only):
+
+| trained on | tested on | AUROC | recall | FPR | oracle FPR |
+|---|---|---|---|---|---|
+| PhiUSIIL | source test | 1.00 | 0.93 | 0.00 | 0.00 |
+| PhiUSIIL | GramBeddings | 0.76 | 0.98 | 0.81 | 0.72 |
+| PhiUSIIL | PhreshPhish | 0.67 | 0.88 | 0.73 | 0.96 |
+| GramBeddings | source test | 0.94 | 0.94 | 0.29 | 0.32 |
+| GramBeddings | PhiUSIIL | 0.83 | 0.53 | 0.00 | 0.84 |
+| GramBeddings | PhreshPhish | 0.80 | 0.77 | 0.28 | 0.70 |
+| GramBeddings (homepage only) | source test | 0.95 | 0.96 | 0.30 | 0.26 |
+| GramBeddings (homepage only) | PhiUSIIL | 0.82 | 0.52 | 0.00 | 0.88 |
+| GramBeddings (homepage only) | PhreshPhish | 0.46 | 0.81 | 0.85 | 1.00 |
+| PhreshPhish | source test | 0.97 | 0.98 | 0.28 | 0.16 |
+| PhreshPhish | PhiUSIIL | 0.49 | 0.97 | 1.00 | 1.00 |
+| PhreshPhish | GramBeddings | 0.73 | 0.94 | 0.68 | 0.70 |
+
+Reading: no pair transfers. The threshold's 95% recall holds in-source (0.93-0.98) but target recall ranges 0.52-0.98 and FPR 0.00-1.00. PhiUSIIL-trained and PhreshPhish-trained models flag almost everything on other sources (FPR 0.68-1.00); GramBeddings-trained models miss about half of PhiUSIIL phishing (recall 0.52-0.53 with FPR 0.00). Where target AUROC is about 0.5 (PhreshPhish -> PhiUSIIL 0.49, homepage-trained GramBeddings -> PhreshPhish 0.46) the score has no ranking value at all. Homepage-only training does not help. This is the third independent target the 11/20 feedback pointed to. PhishTank recall (phishing only, so not a detection metric on its own), HistGB feature set `all`: GramBeddings-trained 0.84, homepage-trained 0.84, PhiUSIIL-trained 0.95, PhreshPhish-trained 0.96 (other models 0.68-0.97, NGRAM 0.73-0.95). The headline table rests on HistGB only: check LR, RF, MLP and NGRAM agree (in `transfer_summary_v2.csv`) before stating it as general.
+
+**A3 and cross-model results (2026-11-25; `results/transfer_runs_canon.csv`, comparison table `results/canonical_vs_raw.csv`; 5 seeds, 5 models, feature set `all` for raw and canonical, plus raw `no_scheme_no_www`).**
+
+Cross-source AUROC, mean over the 8 source/other-dataset cells (4 sources x 2 other datasets; in-source and PhishTank excluded), by model:
+
+| model | raw | raw no scheme/www | canonical | canonical minus raw |
+|---|---|---|---|---|
+| HistGB | 0.694 | 0.651 | 0.667 | -0.027 |
+| LR | 0.693 | 0.593 | 0.618 | -0.074 |
+| MLP | 0.683 | 0.623 | 0.662 | -0.021 |
+| NGRAM | 0.819 | 0.754 | 0.757 | -0.063 |
+| RF | 0.651 | 0.607 | 0.665 | +0.014 |
+
+In-source (source test) AUROC, raw -> canonical: HistGB 0.965 -> 0.908, LR 0.949 -> 0.889, MLP 0.965 -> 0.912, NGRAM 0.977 -> 0.942, RF 0.961 -> 0.899. PhiUSIIL-trained HistGB: in-source 0.997 -> 0.847, to PhreshPhish 0.665 -> 0.432.
+
+Reading: removing the formatting (scheme, www, case, trailing slash) lowers in-source accuracy, most for PhiUSIIL (the PhiUSIIL class separation relies on formatting), but does not improve cross-source transfer: mean cross-source AUROC falls for four of five models and is about equal for RF; mean cross-source FPR at the fixed threshold rises (HistGB 0.55 -> 0.74, NGRAM 0.31 -> 0.59). Per pair it is mixed (HistGB: PhreshPhish -> PhiUSIIL 0.49 -> 0.69, PhiUSIIL -> PhreshPhish 0.67 -> 0.43). So formatting is part of the source differences but is not what causes the transfer failure; what remains after canonicalizing (host and path content, topic and brand mix, hosting mix) is not removed by normalizing URLs. Caveat: canonical form also removes legitimate signal (https and www), so it is not a pure "formatting only" control; do not call it that.
+
+Cross-model check of the v2 headline (raw, `all`, 5 seeds; HistGB, LR, MLP, NGRAM, RF): the fixed-threshold pattern agrees across models. GramBeddings-trained models detect only 0.50-0.58 of PhiUSIIL phishing with FPR 0.00-0.02 (homepage-trained 0.52-0.57). PhiUSIIL-trained models give FPR 0.66-0.95 on GramBeddings and 0.40-0.97 on PhreshPhish (NGRAM lowest). PhreshPhish-trained models flag nearly all PhiUSIIL URLs (FPR 0.95-1.00) except NGRAM (0.05). In-source recall is 0.93-0.98 for all models. Pair-level AUROC is NOT stable across models: PhreshPhish -> PhiUSIIL ranges from 0.27 (RF) through 0.49 (HistGB), 0.70 (MLP), 0.94 (LR) to 0.99 (NGRAM), and homepage-trained GramBeddings -> PhreshPhish from 0.19 (MLP) to 0.67 (NGRAM). So the report should lead with the fixed-threshold recall/FPR pattern and state that AUROC at chance or far below it for a given pair is model-dependent. The NGRAM result for PhreshPhish -> PhiUSIIL (AUROC 0.99, FPR 0.05) is a formatting effect, tested: with the scheme and www stripped it becomes AUROC 0.716 / FPR 0.893 (raw no_scheme_no_www) and 0.744 / 0.817 (canonical), so the char n-grams were reading `https://www.` (every PhiUSIIL legit URL has it). This also explains why NGRAM has the highest raw cross-source AUROC (0.819) and loses 0.06 when formatting is removed.
+
+Schedule (revised 2026-11-23; dates move if the professor's reply or the data access slips): Nov 23-25 professor message, PhreshPhish read test and overlap check (C1 steps 1-4); Nov 24-28 A1-A5; Nov 29-Dec 1 decide C from the overlap result, run the third-source transfer if approved, regenerate tables (B1); Dec 2-3 figures (B2); Dec 4-7 write and polish; Dec 8 submit. If PhreshPhish is dropped, skip the third-source run and spend that time on A and B.
+
+---
+
 ## 4. After the checkpoint (late November to 2026-12-08)
 
-- [ ] Diversity experiment: train on PhiUSIIL alone, GramBeddings alone, and both combined at matched total size. Compare with the char n-gram reference.
+- [ ] Diversity experiment (now secondary, see 3b item C1): train on PhiUSIIL alone, GramBeddings alone, and both combined at matched total size. Compare with the char n-gram reference.
 - [ ] Third independent two-class source (open risk). Fallback: domain-disjoint GramBeddings holdout plus the PhishTank recall check. Decide by about 2026-11-15 whether a third source is realistic. CIC Trap4Phish has no URLs; its "Source Files > QR Codes" folder is uninspected.
 - [ ] Compare against related work: Ahamed 2026 (cross-source accuracy 0.73-0.87), Misiek and Hyla 2026 (77.8% average), Rashid 2024 (about +0.06 F1 from domain adaptation). Confirm none of them is in the target paper's reference list.
 - [ ] Verify the flagged items in `MD/sota_verified_table.md` (Frontiers Table 12 by hand, PhiUSIIL abstract numbers).

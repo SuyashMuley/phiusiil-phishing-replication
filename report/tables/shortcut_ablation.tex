@@ -1,0 +1,15 @@
+{\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Feature set} & \textbf{n} & \textbf{Random split (AUROC / accuracy)} & \textbf{Domain-disjoint split} \\
+\midrule
+all features & 50 & 1.0000 / 1.0000 & 1.0000 / 1.0000 \\
+without USI & 49 & 1.0000 / 0.9999 & 1.0000 / 1.0000 \\
+without page content (keeps USI) & 22 & 0.9999 / 0.9998 & 0.9998 / 0.9998 \\
+page content only & 28 & 1.0000 / 0.9984 & 0.9999 / 0.9977 \\
+without USI and page content & 21 & 0.9988 / 0.9971 & 0.9990 / 0.9971 \\
+URL columns only & 18 & 0.9985 / 0.9976 & 0.9986 / 0.9979 \\
+USI only & 1 & 0.9946 / 0.9954 & 0.9927 / 0.9940 \\
+\bottomrule
+\end{tabular}
+}

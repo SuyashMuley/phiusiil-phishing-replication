@@ -1,0 +1,548 @@
+matched pool size 11666 (largest allowed by the smallest variant)
+seed 0 PhiUSIIL/all: pool 11666, train 8407 (31s)
+seed 0 GramBeddings/all: pool 11666, train 8352 (75s)
+seed 0 GramBeddings/homepage: pool 11666, train 7909 (115s)
+seed 0 PhreshPhish/all: pool 11666, train 7907 (159s)
+seed 1 PhiUSIIL/all: pool 11666, train 8469 (191s)
+seed 1 GramBeddings/all: pool 11666, train 8408 (231s)
+seed 1 GramBeddings/homepage: pool 11666, train 7728 (267s)
+seed 1 PhreshPhish/all: pool 11666, train 8491 (306s)
+seed 2 PhiUSIIL/all: pool 11666, train 8167 (341s)
+seed 2 GramBeddings/all: pool 11666, train 8226 (381s)
+seed 2 GramBeddings/homepage: pool 11666, train 8393 (434s)
+seed 2 PhreshPhish/all: pool 11666, train 8566 (475s)
+seed 3 PhiUSIIL/all: pool 11666, train 8008 (511s)
+seed 3 GramBeddings/all: pool 11666, train 7870 (554s)
+seed 3 GramBeddings/homepage: pool 11666, train 8454 (594s)
+seed 3 PhreshPhish/all: pool 11666, train 8392 (636s)
+seed 4 PhiUSIIL/all: pool 11666, train 8371 (670s)
+seed 4 GramBeddings/all: pool 11666, train 8114 (720s)
+seed 4 GramBeddings/homepage: pool 11666, train 8123 (761s)
+seed 4 PhreshPhish/all: pool 11666, train 7944 (808s)
+
+Class mix (seed 0)
+              variant                    set      n  phish_share  homepage_share_phish  homepage_share_legit
+         PhiUSIIL/all                  train   8407        0.514                 0.728                 1.000
+         PhiUSIIL/all                    val   1487        0.403                 0.659                 1.000
+         PhiUSIIL/all            source test   1772        0.515                 0.719                 1.000
+         PhiUSIIL/all       GramBeddings all  92128        0.465                 0.093                 0.150
+         PhiUSIIL/all  GramBeddings homepage  11361        0.350                 1.000                 1.000
+         PhiUSIIL/all      GramBeddings deep  80767        0.481                 0.000                 0.000
+         PhiUSIIL/all        PhreshPhish all  78380        0.372                 0.433                 0.074
+         PhiUSIIL/all   PhreshPhish homepage  16263        0.775                 1.000                 1.000
+         PhiUSIIL/all       PhreshPhish deep  62117        0.266                 0.000                 0.000
+         PhiUSIIL/all PhishTank (phish only)  48646        1.000                 0.271                   NaN
+     GramBeddings/all                  train   8352        0.519                 0.113                 0.149
+     GramBeddings/all                    val   1742        0.442                 0.108                 0.127
+     GramBeddings/all            source test   1572        0.461                 0.128                 0.157
+     GramBeddings/all           PhiUSIIL all 228354        0.412                 0.733                 1.000
+     GramBeddings/all      PhiUSIIL homepage 203231        0.339                 1.000                 1.000
+     GramBeddings/all          PhiUSIIL deep  25123        1.000                 0.000                   NaN
+     GramBeddings/all        PhreshPhish all  94152        0.479                 0.463                 0.075
+     GramBeddings/all   PhreshPhish homepage  24545        0.851                 1.000                 1.000
+     GramBeddings/all       PhreshPhish deep  69607        0.348                 0.000                 0.000
+     GramBeddings/all PhishTank (phish only)  70023        1.000                 0.359                   NaN
+GramBeddings/homepage                  train   7909        0.483                 1.000                 1.000
+GramBeddings/homepage                    val   1447        0.385                 1.000                 1.000
+GramBeddings/homepage            source test   2310        0.631                 1.000                 1.000
+GramBeddings/homepage           PhiUSIIL all 214504        0.375                 0.689                 1.000
+GramBeddings/homepage      PhiUSIIL homepage 189517        0.292                 1.000                 1.000
+GramBeddings/homepage          PhiUSIIL deep  24987        1.000                 0.000                   NaN
+GramBeddings/homepage        PhreshPhish all  91798        0.466                 0.473                 0.075
+GramBeddings/homepage   PhreshPhish homepage  23910        0.847                 1.000                 1.000
+GramBeddings/homepage       PhreshPhish deep  67888        0.332                 0.000                 0.000
+GramBeddings/homepage PhishTank (phish only)  61587        1.000                 0.347                   NaN
+      PhreshPhish/all                  train   7907        0.511                 0.378                 0.083
+      PhreshPhish/all                    val   1638        0.351                 0.417                 0.059
+      PhreshPhish/all            source test   2121        0.576                 0.693                 0.079
+      PhreshPhish/all           PhiUSIIL all 208515        0.359                 0.721                 1.000
+      PhreshPhish/all      PhiUSIIL homepage 187674        0.287                 1.000                 1.000
+      PhreshPhish/all          PhiUSIIL deep  20841        1.000                 0.000                   NaN
+      PhreshPhish/all       GramBeddings all  94172        0.479                 0.109                 0.150
+      PhreshPhish/all  GramBeddings homepage  12272        0.399                 1.000                 1.000
+      PhreshPhish/all      GramBeddings deep  81900        0.490                 0.000                 0.000
+      PhreshPhish/all PhishTank (phish only)  36864        1.000                 0.469                   NaN
+
+Transfer results (mean over seeds)
+                                                                             n      pos  auroc  pr_auc  recall    fpr  oracle_fpr_at_95rec
+variant               featset          model  target                                                                                      
+PhiUSIIL/all          all              LR     source test               1620.2    749.8  0.999   0.999   0.944  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.780   0.762   0.985  0.860                0.741
+                                              GramBeddings homepage    11668.6   4237.2  0.775   0.696   0.941  0.664                0.688
+                                              GramBeddings deep        81838.6  39819.0  0.785   0.775   0.989  0.894                0.761
+                                              PhreshPhish all          83000.2  33761.2  0.435   0.362   0.886  0.888                0.928
+                                              PhreshPhish homepage     19496.4  15834.4  0.772   0.934   0.779  0.494                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.512   0.295   0.980  0.920                0.840
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.955    NaN                  NaN
+                                       RF     source test               1620.2    749.8  0.998   0.998   0.943  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.614   0.538   0.993  0.949                0.808
+                                              GramBeddings homepage    11668.6   4237.2  0.646   0.448   0.965  0.789                0.752
+                                              GramBeddings deep        81838.6  39819.0  0.607   0.548   0.995  0.977                0.832
+                                              PhreshPhish all          83000.2  33761.2  0.612   0.488   0.889  0.969                1.000
+                                              PhreshPhish homepage     19496.4  15834.4  0.501   0.817   0.767  0.916                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.701   0.401   0.995  0.974                0.697
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.969    NaN                  NaN
+                                       HistGB source test               1620.2    749.8  0.997   0.998   0.931  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.758   0.713   0.978  0.810                0.718
+                                              GramBeddings homepage    11668.6   4237.2  0.803   0.704   0.948  0.681                0.681
+                                              GramBeddings deep        81838.6  39819.0  0.749   0.715   0.981  0.833                0.736
+                                              PhreshPhish all          83000.2  33761.2  0.665   0.558   0.878  0.735                0.963
+                                              PhreshPhish homepage     19496.4  15834.4  0.706   0.909   0.769  0.506                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.757   0.509   0.973  0.753                0.583
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.955    NaN                  NaN
+                                       MLP    source test               1620.2    749.8  0.998   0.998   0.939  0.001                0.001
+                                              GramBeddings all         93507.2  44056.2  0.771   0.745   0.976  0.810                0.725
+                                              GramBeddings homepage    11668.6   4237.2  0.763   0.663   0.937  0.682                0.714
+                                              GramBeddings deep        81838.6  39819.0  0.774   0.758   0.981  0.833                0.734
+                                              PhreshPhish all          83000.2  33761.2  0.441   0.377   0.876  0.811                0.899
+                                              PhreshPhish homepage     19496.4  15834.4  0.762   0.930   0.806  0.444                0.959
+                                              PhreshPhish deep         63503.8  17926.8  0.508   0.312   0.936  0.840                0.838
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.942    NaN                  NaN
+                                       NGRAM  source test               1620.2    749.8  0.998   0.999   0.935  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.729   0.641   0.951  0.665                0.662
+                                              GramBeddings homepage    11668.6   4237.2  0.673   0.480   0.861  0.560                0.780
+                                              GramBeddings deep        81838.6  39819.0  0.740   0.673   0.960  0.684                0.651
+                                              PhreshPhish all          83000.2  33761.2  0.763   0.700   0.797  0.395                0.790
+                                              PhreshPhish homepage     19496.4  15834.4  0.843   0.953   0.700  0.187                0.658
+                                              PhreshPhish deep         63503.8  17926.8  0.808   0.615   0.882  0.412                0.568
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.727    NaN                  NaN
+                      no_scheme        LR     source test               1620.2    749.8  0.926   0.933   0.944  0.412                0.406
+                                              GramBeddings all         93507.2  44056.2  0.794   0.781   0.998  0.989                0.655
+                                              GramBeddings homepage    11668.6   4237.2  0.859   0.793   1.000  0.936                0.577
+                                              GramBeddings deep        81838.6  39819.0  0.794   0.793   0.998  0.998                0.686
+                                              PhreshPhish all          83000.2  33761.2  0.510   0.411   0.983  0.999                0.937
+                                              PhreshPhish homepage     19496.4  15834.4  0.713   0.909   0.971  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.599   0.363   0.995  0.999                0.819
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.999    NaN                  NaN
+                                       RF     source test               1620.2    749.8  0.995   0.995   0.940  0.017                0.019
+                                              GramBeddings all         93507.2  44056.2  0.615   0.538   1.000  0.984                0.805
+                                              GramBeddings homepage    11668.6   4237.2  0.709   0.498   1.000  0.897                0.645
+                                              GramBeddings deep        81838.6  39819.0  0.597   0.542   1.000  0.999                0.848
+                                              PhreshPhish all          83000.2  33761.2  0.553   0.443   0.973  1.000                0.999
+                                              PhreshPhish homepage     19496.4  15834.4  0.480   0.809   0.943  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.634   0.352   1.000  1.000                0.850
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.999    NaN                  NaN
+                                       HistGB source test               1620.2    749.8  0.998   0.999   0.935  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.752   0.716   1.000  0.979                0.667
+                                              GramBeddings homepage    11668.6   4237.2  0.841   0.755   1.000  0.897                0.557
+                                              GramBeddings deep        81838.6  39819.0  0.740   0.717   1.000  0.994                0.684
+                                              PhreshPhish all          83000.2  33761.2  0.722   0.653   0.969  0.997                0.951
+                                              PhreshPhish homepage     19496.4  15834.4  0.565   0.861   0.934  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.791   0.582   1.000  0.997                0.581
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.998    NaN                  NaN
+                                       MLP    source test               1620.2    749.8  0.956   0.962   0.943  0.255                0.255
+                                              GramBeddings all         93507.2  44056.2  0.669   0.615   0.999  0.974                0.729
+                                              GramBeddings homepage    11668.6   4237.2  0.727   0.589   1.000  0.917                0.699
+                                              GramBeddings deep        81838.6  39819.0  0.663   0.626   0.999  0.984                0.742
+                                              PhreshPhish all          83000.2  33761.2  0.515   0.414   0.978  0.986                0.906
+                                              PhreshPhish homepage     19496.4  15834.4  0.615   0.865   0.958  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.548   0.310   0.996  0.985                0.841
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.998    NaN                  NaN
+                                       NGRAM  source test               1620.2    749.8  0.908   0.924   0.939  0.571                0.609
+                                              GramBeddings all         93507.2  44056.2  0.867   0.854   1.000  0.984                0.548
+                                              GramBeddings homepage    11668.6   4237.2  0.868   0.774   1.000  0.920                0.507
+                                              GramBeddings deep        81838.6  39819.0  0.867   0.862   1.000  0.996                0.553
+                                              PhreshPhish all          83000.2  33761.2  0.792   0.681   0.998  0.992                0.771
+                                              PhreshPhish homepage     19496.4  15834.4  0.820   0.942   0.996  0.917                0.612
+                                              PhreshPhish deep         63503.8  17926.8  0.851   0.620   1.000  0.998                0.470
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   1.000    NaN                  NaN
+                      no_scheme_no_www LR     source test               1620.2    749.8  0.927   0.933   0.945  0.407                0.399
+                                              GramBeddings all         93507.2  44056.2  0.756   0.755   0.997  0.988                0.755
+                                              GramBeddings homepage    11668.6   4237.2  0.893   0.822   1.000  0.929                0.343
+                                              GramBeddings deep        81838.6  39819.0  0.759   0.771   0.997  0.998                0.829
+                                              PhreshPhish all          83000.2  33761.2  0.333   0.331   0.983  1.000                0.997
+                                              PhreshPhish homepage     19496.4  15834.4  0.600   0.885   0.970  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.451   0.287   0.995  1.000                0.953
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.998    NaN                  NaN
+                                       RF     source test               1620.2    749.8  0.995   0.995   0.939  0.016                0.019
+                                              GramBeddings all         93507.2  44056.2  0.561   0.504   1.000  0.979                0.882
+                                              GramBeddings homepage    11668.6   4237.2  0.722   0.507   0.999  0.866                0.585
+                                              GramBeddings deep        81838.6  39819.0  0.532   0.504   1.000  0.999                0.947
+                                              PhreshPhish all          83000.2  33761.2  0.428   0.372   0.970  1.000                1.000
+                                              PhreshPhish homepage     19496.4  15834.4  0.405   0.782   0.936  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.503   0.283   1.000  1.000                0.978
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.996    NaN                  NaN
+                                       HistGB source test               1620.2    749.8  0.998   0.998   0.937  0.000                0.000
+                                              GramBeddings all         93507.2  44056.2  0.674   0.665   1.000  0.973                0.858
+                                              GramBeddings homepage    11668.6   4237.2  0.852   0.763   0.998  0.836                0.499
+                                              GramBeddings deep        81838.6  39819.0  0.648   0.656   1.000  0.997                0.906
+                                              PhreshPhish all          83000.2  33761.2  0.640   0.584   0.931  1.000                1.000
+                                              PhreshPhish homepage     19496.4  15834.4  0.521   0.849   0.852  1.000                1.000
+                                              PhreshPhish deep         63503.8  17926.8  0.711   0.514   1.000  1.000                0.849
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.989    NaN                  NaN
+                                       MLP    source test               1620.2    749.8  0.916   0.928   0.943  0.485                0.504
+                                              GramBeddings all         93507.2  44056.2  0.732   0.706   0.999  0.989                0.759
+                                              GramBeddings homepage    11668.6   4237.2  0.887   0.822   1.000  0.933                0.412
+                                              GramBeddings deep        81838.6  39819.0  0.725   0.717   0.999  0.999                0.821
+                                              PhreshPhish all          83000.2  33761.2  0.316   0.316   0.985  0.999                0.977
+                                              PhreshPhish homepage     19496.4  15834.4  0.652   0.897   0.970  1.000                0.988
+                                              PhreshPhish deep         63503.8  17926.8  0.402   0.254   0.998  0.999                0.954
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.999    NaN                  NaN
+                                       NGRAM  source test               1620.2    749.8  0.899   0.908   0.945  0.577                0.602
+                                              GramBeddings all         93507.2  44056.2  0.844   0.816   0.999  0.965                0.603
+                                              GramBeddings homepage    11668.6   4237.2  0.875   0.773   0.994  0.842                0.448
+                                              GramBeddings deep        81838.6  39819.0  0.844   0.824   0.999  0.987                0.616
+                                              PhreshPhish all          83000.2  33761.2  0.647   0.550   0.992  0.985                0.880
+                                              PhreshPhish homepage     19496.4  15834.4  0.732   0.918   0.984  0.882                0.787
+                                              PhreshPhish deep         63503.8  17926.8  0.737   0.495   0.999  0.993                0.746
+                                              PhishTank (phish only)   52014.2  52014.2    NaN     NaN   0.997    NaN                  NaN
+GramBeddings/all      all              LR     source test               1708.4    828.6  0.912   0.920   0.950  0.466                0.468
+                                              PhiUSIIL all            219308.6  84973.6  0.840   0.838   0.533  0.013                0.743
+                                              PhiUSIIL homepage       194602.6  60267.6  0.780   0.719   0.386  0.013                0.792
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.889    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.770   0.717   0.795  0.366                0.666
+                                              PhreshPhish homepage     23476.6  19811.8  0.777   0.942   0.758  0.323                0.754
+                                              PhreshPhish deep         68605.8  23773.4  0.802   0.672   0.826  0.369                0.626
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.677    NaN                  NaN
+                                       RF     source test               1708.4    828.6  0.939   0.943   0.948  0.340                0.346
+                                              PhiUSIIL all            219308.6  84973.6  0.833   0.831   0.576  0.017                1.000
+                                              PhiUSIIL homepage       194602.6  60267.6  0.767   0.712   0.431  0.017                1.000
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.927    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.779   0.751   0.809  0.387                0.814
+                                              PhreshPhish homepage     23476.6  19811.8  0.724   0.931   0.690  0.347                0.917
+                                              PhreshPhish deep         68605.8  23773.4  0.843   0.707   0.908  0.390                0.505
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.872    NaN                  NaN
+                                       HistGB source test               1708.4    828.6  0.944   0.948   0.940  0.288                0.325
+                                              PhiUSIIL all            219308.6  84973.6  0.827   0.839   0.528  0.002                0.836
+                                              PhiUSIIL homepage       194602.6  60267.6  0.756   0.718   0.379  0.002                0.878
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.890    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.805   0.777   0.768  0.284                0.698
+                                              PhreshPhish homepage     23476.6  19811.8  0.677   0.925   0.670  0.412                0.970
+                                              PhreshPhish deep         68605.8  23773.4  0.857   0.744   0.850  0.274                0.495
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.835    NaN                  NaN
+                                       MLP    source test               1708.4    828.6  0.940   0.945   0.945  0.335                0.348
+                                              PhiUSIIL all            219308.6  84973.6  0.906   0.889   0.584  0.015                0.429
+                                              PhiUSIIL homepage       194602.6  60267.6  0.873   0.804   0.459  0.015                0.457
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.886    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.848   0.816   0.823  0.257                0.518
+                                              PhreshPhish homepage     23476.6  19811.8  0.808   0.956   0.825  0.395                0.774
+                                              PhreshPhish deep         68605.8  23773.4  0.857   0.757   0.822  0.246                0.486
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.797    NaN                  NaN
+                                       NGRAM  source test               1708.4    828.6  0.965   0.969   0.932  0.153                0.211
+                                              PhiUSIIL all            219308.6  84973.6  0.925   0.917   0.495  0.000                0.460
+                                              PhiUSIIL homepage       194602.6  60267.6  0.895   0.850   0.335  0.000                0.540
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.883    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.827   0.767   0.675  0.180                0.552
+                                              PhreshPhish homepage     23476.6  19811.8  0.839   0.959   0.565  0.120                0.581
+                                              PhreshPhish deep         68605.8  23773.4  0.863   0.725   0.767  0.185                0.446
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.681    NaN                  NaN
+                      no_scheme        LR     source test               1708.4    828.6  0.911   0.919   0.949  0.464                0.474
+                                              PhiUSIIL all            219308.6  84973.6  0.772   0.792   0.531  0.021                0.891
+                                              PhiUSIIL homepage       194602.6  60267.6  0.685   0.649   0.380  0.021                0.922
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.896    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.763   0.711   0.814  0.398                0.676
+                                              PhreshPhish homepage     23476.6  19811.8  0.764   0.938   0.780  0.370                0.773
+                                              PhreshPhish deep         68605.8  23773.4  0.799   0.667   0.842  0.400                0.635
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.702    NaN                  NaN
+                                       RF     source test               1708.4    828.6  0.938   0.942   0.946  0.337                0.355
+                                              PhiUSIIL all            219308.6  84973.6  0.822   0.823   0.577  0.016                1.000
+                                              PhiUSIIL homepage       194602.6  60267.6  0.750   0.702   0.432  0.016                1.000
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.928    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.767   0.740   0.805  0.401                0.880
+                                              PhreshPhish homepage     23476.6  19811.8  0.700   0.925   0.680  0.378                0.964
+                                              PhreshPhish deep         68605.8  23773.4  0.836   0.695   0.908  0.403                0.527
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.876    NaN                  NaN
+                                       HistGB source test               1708.4    828.6  0.943   0.948   0.938  0.300                0.347
+                                              PhiUSIIL all            219308.6  84973.6  0.818   0.834   0.531  0.002                0.855
+                                              PhiUSIIL homepage       194602.6  60267.6  0.743   0.711   0.379  0.002                0.901
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.897    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.789   0.764   0.767  0.308                0.752
+                                              PhreshPhish homepage     23476.6  19811.8  0.649   0.918   0.658  0.441                0.983
+                                              PhreshPhish deep         68605.8  23773.4  0.850   0.734   0.857  0.297                0.526
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.841    NaN                  NaN
+                                       MLP    source test               1708.4    828.6  0.938   0.944   0.941  0.336                0.363
+                                              PhiUSIIL all            219308.6  84973.6  0.825   0.842   0.578  0.012                0.845
+                                              PhiUSIIL homepage       194602.6  60267.6  0.756   0.731   0.448  0.012                0.871
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.893    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.837   0.805   0.831  0.288                0.562
+                                              PhreshPhish homepage     23476.6  19811.8  0.775   0.949   0.821  0.459                0.939
+                                              PhreshPhish deep         68605.8  23773.4  0.853   0.752   0.840  0.274                0.502
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.798    NaN                  NaN
+                                       NGRAM  source test               1708.4    828.6  0.966   0.969   0.938  0.161                0.188
+                                              PhiUSIIL all            219308.6  84973.6  0.860   0.861   0.516  0.002                0.734
+                                              PhiUSIIL homepage       194602.6  60267.6  0.803   0.753   0.353  0.002                0.794
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.911    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.835   0.775   0.745  0.209                0.524
+                                              PhreshPhish homepage     23476.6  19811.8  0.815   0.951   0.658  0.209                0.595
+                                              PhreshPhish deep         68605.8  23773.4  0.869   0.735   0.818  0.209                0.434
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.803    NaN                  NaN
+                      no_scheme_no_www LR     source test               1708.4    828.6  0.874   0.893   0.949  0.663                0.666
+                                              PhiUSIIL all            219308.6  84973.6  0.750   0.763   0.666  0.298                0.906
+                                              PhiUSIIL homepage       194602.6  60267.6  0.679   0.626   0.569  0.298                0.934
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.901    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.633   0.615   0.802  0.673                0.859
+                                              PhreshPhish homepage     23476.6  19811.8  0.673   0.919   0.752  0.567                0.958
+                                              PhreshPhish deep         68605.8  23773.4  0.691   0.574   0.843  0.681                0.848
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.727    NaN                  NaN
+                                       RF     source test               1708.4    828.6  0.923   0.931   0.949  0.436                0.437
+                                              PhiUSIIL all            219308.6  84973.6  0.819   0.814   0.575  0.026                1.000
+                                              PhiUSIIL homepage       194602.6  60267.6  0.747   0.689   0.429  0.026                1.000
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.928    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.714   0.695   0.811  0.533                0.935
+                                              PhreshPhish homepage     23476.6  19811.8  0.669   0.919   0.691  0.439                1.000
+                                              PhreshPhish deep         68605.8  23773.4  0.784   0.634   0.910  0.541                0.656
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.883    NaN                  NaN
+                                       HistGB source test               1708.4    828.6  0.923   0.932   0.940  0.393                0.426
+                                              PhiUSIIL all            219308.6  84973.6  0.811   0.826   0.536  0.007                0.849
+                                              PhiUSIIL homepage       194602.6  60267.6  0.735   0.698   0.390  0.007                0.895
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.891    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.726   0.715   0.775  0.461                0.875
+                                              PhreshPhish homepage     23476.6  19811.8  0.626   0.915   0.674  0.496                1.000
+                                              PhreshPhish deep         68605.8  23773.4  0.792   0.673   0.860  0.458                0.680
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.864    NaN                  NaN
+                                       MLP    source test               1708.4    828.6  0.916   0.927   0.939  0.440                0.470
+                                              PhiUSIIL all            219308.6  84973.6  0.837   0.841   0.606  0.036                0.793
+                                              PhiUSIIL homepage       194602.6  60267.6  0.780   0.735   0.487  0.036                0.825
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.894    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.777   0.752   0.829  0.437                0.677
+                                              PhreshPhish homepage     23476.6  19811.8  0.790   0.952   0.827  0.448                0.901
+                                              PhreshPhish deep         68605.8  23773.4  0.787   0.684   0.830  0.436                0.666
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.857    NaN                  NaN
+                                       NGRAM  source test               1708.4    828.6  0.962   0.965   0.933  0.187                0.228
+                                              PhiUSIIL all            219308.6  84973.6  0.832   0.807   0.676  0.159                0.729
+                                              PhiUSIIL homepage       194602.6  60267.6  0.783   0.682   0.580  0.159                0.777
+                                              PhiUSIIL deep            24706.0  24706.0    NaN     NaN   0.907    NaN                  NaN
+                                              PhreshPhish all          92082.4  43585.2  0.790   0.729   0.723  0.274                0.619
+                                              PhreshPhish homepage     23476.6  19811.8  0.765   0.941   0.630  0.235                0.756
+                                              PhreshPhish deep         68605.8  23773.4  0.826   0.683   0.801  0.277                0.570
+                                              PhishTank (phish only)   63495.8  63495.8    NaN     NaN   0.749    NaN                  NaN
+GramBeddings/homepage all              LR     source test               1936.2   1063.8  0.953   0.952   0.962  0.286                0.242
+                                              PhiUSIIL all            217870.0  83795.8  0.865   0.865   0.539  0.001                0.689
+                                              PhiUSIIL homepage       192726.6  58652.4  0.819   0.762   0.359  0.001                0.720
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.955    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.197   0.318   0.806  0.956                1.000
+                                              PhreshPhish homepage     22887.4  19225.8  0.673   0.927   0.696  0.406                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.268   0.243   0.896  1.000                1.000
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.931    NaN                  NaN
+                                       RF     source test               1936.2   1063.8  0.941   0.940   0.951  0.329                0.309
+                                              PhiUSIIL all            217870.0  83795.8  0.818   0.799   0.570  0.007                1.000
+                                              PhiUSIIL homepage       192726.6  58652.4  0.739   0.661   0.389  0.007                1.000
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.990    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.561   0.624   0.847  0.939                0.988
+                                              PhreshPhish homepage     22887.4  19225.8  0.644   0.911   0.674  0.514                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.684   0.586   0.990  0.973                0.915
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.937    NaN                  NaN
+                                       HistGB source test               1936.2   1063.8  0.950   0.949   0.961  0.305                0.264
+                                              PhiUSIIL all            217870.0  83795.8  0.818   0.836   0.522  0.000                0.884
+                                              PhiUSIIL homepage       192726.6  58652.4  0.739   0.707   0.345  0.000                0.911
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.932    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.461   0.513   0.805  0.849                0.999
+                                              PhreshPhish homepage     22887.4  19225.8  0.606   0.909   0.637  0.460                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.581   0.502   0.943  0.880                0.888
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.837    NaN                  NaN
+                                       MLP    source test               1936.2   1063.8  0.955   0.955   0.966  0.294                0.228
+                                              PhiUSIIL all            217870.0  83795.8  0.837   0.850   0.535  0.000                0.798
+                                              PhiUSIIL homepage       192726.6  58652.4  0.783   0.744   0.354  0.000                0.813
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.952    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.191   0.316   0.806  0.956                0.998
+                                              PhreshPhish homepage     22887.4  19225.8  0.642   0.919   0.658  0.436                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.256   0.239   0.925  0.998                0.998
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.918    NaN                  NaN
+                                       NGRAM  source test               1936.2   1063.8  0.972   0.977   0.958  0.214                0.151
+                                              PhiUSIIL all            217870.0  83795.8  0.901   0.896   0.559  0.003                0.588
+                                              PhiUSIIL homepage       192726.6  58652.4  0.859   0.809   0.410  0.003                0.668
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.905    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.665   0.622   0.840  0.640                0.824
+                                              PhreshPhish homepage     22887.4  19225.8  0.848   0.964   0.774  0.235                0.639
+                                              PhreshPhish deep         68662.8  23214.4  0.707   0.534   0.894  0.673                0.781
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.797    NaN                  NaN
+                      no_scheme        LR     source test               1936.2   1063.8  0.954   0.953   0.962  0.292                0.237
+                                              PhiUSIIL all            217870.0  83795.8  0.831   0.841   0.538  0.001                0.801
+                                              PhiUSIIL homepage       192726.6  58652.4  0.772   0.725   0.359  0.001                0.823
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.951    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.195   0.317   0.808  0.958                1.000
+                                              PhreshPhish homepage     22887.4  19225.8  0.667   0.926   0.702  0.442                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.264   0.242   0.894  1.000                1.000
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.927    NaN                  NaN
+                                       RF     source test               1936.2   1063.8  0.941   0.941   0.953  0.335                0.301
+                                              PhiUSIIL all            217870.0  83795.8  0.820   0.799   0.575  0.007                1.000
+                                              PhiUSIIL homepage       192726.6  58652.4  0.742   0.663   0.395  0.007                1.000
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.990    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.560   0.622   0.853  0.943                0.995
+                                              PhreshPhish homepage     22887.4  19225.8  0.634   0.909   0.685  0.544                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.680   0.581   0.991  0.975                0.918
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.942    NaN                  NaN
+                                       HistGB source test               1936.2   1063.8  0.950   0.951   0.960  0.298                0.260
+                                              PhiUSIIL all            217870.0  83795.8  0.816   0.834   0.509  0.000                0.881
+                                              PhiUSIIL homepage       192726.6  58652.4  0.736   0.702   0.345  0.000                0.920
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.887    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.491   0.532   0.787  0.791                0.998
+                                              PhreshPhish homepage     22887.4  19225.8  0.600   0.907   0.635  0.464                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.603   0.518   0.910  0.818                0.871
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.801    NaN                  NaN
+                                       MLP    source test               1936.2   1063.8  0.956   0.957   0.966  0.284                0.236
+                                              PhiUSIIL all            217870.0  83795.8  0.798   0.823   0.531  0.000                0.911
+                                              PhiUSIIL homepage       192726.6  58652.4  0.736   0.708   0.358  0.000                0.902
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.928    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.192   0.316   0.790  0.957                0.998
+                                              PhreshPhish homepage     22887.4  19225.8  0.632   0.916   0.669  0.463                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.260   0.240   0.890  0.997                0.997
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.901    NaN                  NaN
+                                       NGRAM  source test               1936.2   1063.8  0.968   0.973   0.957  0.234                0.189
+                                              PhiUSIIL all            217870.0  83795.8  0.863   0.865   0.562  0.007                0.743
+                                              PhiUSIIL homepage       192726.6  58652.4  0.806   0.758   0.411  0.007                0.808
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.913    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.697   0.651   0.869  0.632                0.800
+                                              PhreshPhish homepage     22887.4  19225.8  0.831   0.959   0.801  0.303                0.651
+                                              PhreshPhish deep         68662.8  23214.4  0.741   0.563   0.923  0.659                0.726
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.894    NaN                  NaN
+                      no_scheme_no_www LR     source test               1936.2   1063.8  0.954   0.953   0.963  0.289                0.236
+                                              PhiUSIIL all            217870.0  83795.8  0.833   0.843   0.539  0.001                0.793
+                                              PhiUSIIL homepage       192726.6  58652.4  0.774   0.726   0.359  0.001                0.817
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.954    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.195   0.317   0.809  0.959                1.000
+                                              PhreshPhish homepage     22887.4  19225.8  0.665   0.926   0.699  0.447                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.264   0.241   0.899  1.000                1.000
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.929    NaN                  NaN
+                                       RF     source test               1936.2   1063.8  0.940   0.941   0.954  0.352                0.312
+                                              PhiUSIIL all            217870.0  83795.8  0.814   0.796   0.575  0.018                1.000
+                                              PhiUSIIL homepage       192726.6  58652.4  0.734   0.655   0.399  0.018                1.000
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.984    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.529   0.601   0.847  0.951                0.999
+                                              PhreshPhish homepage     22887.4  19225.8  0.617   0.905   0.675  0.565                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.639   0.554   0.987  0.982                0.942
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.941    NaN                  NaN
+                                       HistGB source test               1936.2   1063.8  0.949   0.950   0.970  0.352                0.262
+                                              PhiUSIIL all            217870.0  83795.8  0.817   0.831   0.530  0.002                0.868
+                                              PhiUSIIL homepage       192726.6  58652.4  0.739   0.698   0.369  0.002                0.915
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.901    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.475   0.526   0.807  0.832                0.998
+                                              PhreshPhish homepage     22887.4  19225.8  0.596   0.906   0.661  0.566                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.585   0.511   0.926  0.853                0.889
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.841    NaN                  NaN
+                                       MLP    source test               1936.2   1063.8  0.955   0.955   0.968  0.301                0.242
+                                              PhiUSIIL all            217870.0  83795.8  0.796   0.820   0.535  0.001                0.905
+                                              PhiUSIIL homepage       192726.6  58652.4  0.736   0.703   0.367  0.001                0.887
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.924    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.187   0.315   0.784  0.962                0.998
+                                              PhreshPhish homepage     22887.4  19225.8  0.607   0.910   0.663  0.522                1.000
+                                              PhreshPhish deep         68662.8  23214.4  0.255   0.239   0.883  0.998                0.998
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.900    NaN                  NaN
+                                       NGRAM  source test               1936.2   1063.8  0.963   0.971   0.948  0.232                0.216
+                                              PhiUSIIL all            217870.0  83795.8  0.849   0.833   0.683  0.120                0.733
+                                              PhiUSIIL homepage       192726.6  58652.4  0.802   0.732   0.590  0.120                0.794
+                                              PhiUSIIL deep            25143.4  25143.4    NaN     NaN   0.896    NaN                  NaN
+                                              PhreshPhish all          91550.2  42440.2  0.613   0.575   0.845  0.744                0.889
+                                              PhreshPhish homepage     22887.4  19225.8  0.778   0.947   0.771  0.399                0.796
+                                              PhreshPhish deep         68662.8  23214.4  0.657   0.472   0.905  0.772                0.854
+                                              PhishTank (phish only)   61097.0  61097.0    NaN     NaN   0.836    NaN                  NaN
+PhreshPhish/all       all              LR     source test               1953.0   1082.2  0.931   0.946   0.959  0.538                0.325
+                                              PhiUSIIL all            213008.4  79289.8  0.942   0.947   0.982  0.947                0.460
+                                              PhiUSIIL homepage       191066.4  57347.8  0.980   0.970   0.998  0.947                0.078
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.939    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.714   0.716   0.923  0.840                0.908
+                                              GramBeddings homepage    12587.6   5169.4  0.763   0.718   0.995  0.960                0.766
+                                              GramBeddings deep        83165.4  41268.8  0.717   0.727   0.914  0.819                0.914
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.969    NaN                  NaN
+                                       RF     source test               1953.0   1082.2  0.965   0.967   0.976  0.301                0.171
+                                              PhiUSIIL all            213008.4  79289.8  0.268   0.267   0.976  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.340   0.231   0.993  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.933    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.725   0.636   0.954  0.680                0.661
+                                              GramBeddings homepage    12587.6   5169.4  0.524   0.405   0.979  0.896                0.831
+                                              GramBeddings deep        83165.4  41268.8  0.776   0.736   0.951  0.641                0.631
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.951    NaN                  NaN
+                                       HistGB source test               1953.0   1082.2  0.970   0.976   0.976  0.281                0.159
+                                              PhiUSIIL all            213008.4  79289.8  0.488   0.558   0.971  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.603   0.588   0.995  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.909    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.726   0.670   0.941  0.679                0.698
+                                              GramBeddings homepage    12587.6   5169.4  0.465   0.366   0.985  0.937                0.864
+                                              GramBeddings deep        83165.4  41268.8  0.771   0.737   0.936  0.633                0.670
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.955    NaN                  NaN
+                                       MLP    source test               1953.0   1082.2  0.967   0.973   0.975  0.255                0.149
+                                              PhiUSIIL all            213008.4  79289.8  0.705   0.753   0.971  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.796   0.780   0.998  1.000                0.778
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.900    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.767   0.731   0.932  0.636                0.688
+                                              GramBeddings homepage    12587.6   5169.4  0.690   0.622   0.994  0.965                0.835
+                                              GramBeddings deep        83165.4  41268.8  0.794   0.761   0.924  0.578                0.659
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.949    NaN                  NaN
+                                       NGRAM  source test               1953.0   1082.2  0.974   0.979   0.966  0.188                0.131
+                                              PhiUSIIL all            213008.4  79289.8  0.990   0.988   0.960  0.047                0.024
+                                              PhiUSIIL homepage       191066.4  57347.8  0.993   0.989   0.974  0.047                0.013
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.922    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.754   0.676   0.909  0.571                0.665
+                                              GramBeddings homepage    12587.6   5169.4  0.661   0.511   0.946  0.786                0.791
+                                              GramBeddings deep        83165.4  41268.8  0.781   0.729   0.904  0.533                0.642
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.951    NaN                  NaN
+                      no_scheme        LR     source test               1953.0   1082.2  0.928   0.944   0.958  0.545                0.341
+                                              PhiUSIIL all            213008.4  79289.8  0.670   0.692   0.967  0.991                0.980
+                                              PhiUSIIL homepage       191066.4  57347.8  0.629   0.592   0.985  0.991                0.949
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.919    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.706   0.714   0.884  0.774                0.950
+                                              GramBeddings homepage    12587.6   5169.4  0.774   0.727   0.993  0.937                0.709
+                                              GramBeddings deep        83165.4  41268.8  0.707   0.723   0.871  0.745                0.954
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.970    NaN                  NaN
+                                       RF     source test               1953.0   1082.2  0.964   0.966   0.976  0.295                0.164
+                                              PhiUSIIL all            213008.4  79289.8  0.305   0.287   0.966  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.393   0.259   0.992  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.897    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.737   0.641   0.900  0.519                0.657
+                                              GramBeddings homepage    12587.6   5169.4  0.519   0.395   0.972  0.852                0.806
+                                              GramBeddings deep        83165.4  41268.8  0.790   0.745   0.891  0.460                0.633
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.949    NaN                  NaN
+                                       HistGB source test               1953.0   1082.2  0.967   0.974   0.979  0.311                0.157
+                                              PhiUSIIL all            213008.4  79289.8  0.393   0.411   0.965  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.485   0.388   0.994  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.888    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.744   0.690   0.897  0.575                0.725
+                                              GramBeddings homepage    12587.6   5169.4  0.452   0.351   0.978  0.920                0.853
+                                              GramBeddings deep        83165.4  41268.8  0.792   0.766   0.887  0.514                0.703
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.957    NaN                  NaN
+                                       MLP    source test               1953.0   1082.2  0.967   0.973   0.977  0.270                0.149
+                                              PhiUSIIL all            213008.4  79289.8  0.560   0.603   0.967  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.644   0.594   0.999  1.000                0.981
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.884    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.775   0.731   0.890  0.522                0.697
+                                              GramBeddings homepage    12587.6   5169.4  0.640   0.561   0.996  0.969                0.811
+                                              GramBeddings deep        83165.4  41268.8  0.813   0.777   0.877  0.443                0.669
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.958    NaN                  NaN
+                                       NGRAM  source test               1953.0   1082.2  0.973   0.979   0.969  0.198                0.135
+                                              PhiUSIIL all            213008.4  79289.8  0.843   0.829   0.692  0.143                0.753
+                                              PhiUSIIL homepage       191066.4  57347.8  0.801   0.736   0.610  0.143                0.798
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.906    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.792   0.755   0.847  0.437                0.659
+                                              GramBeddings homepage    12587.6   5169.4  0.740   0.632   0.928  0.645                0.702
+                                              GramBeddings deep        83165.4  41268.8  0.809   0.788   0.836  0.400                0.644
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.957    NaN                  NaN
+                      no_scheme_no_www LR     source test               1953.0   1082.2  0.908   0.933   0.962  0.750                0.493
+                                              PhiUSIIL all            213008.4  79289.8  0.619   0.645   0.977  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.662   0.607   1.000  1.000                0.939
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.916    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.625   0.673   0.849  0.915                0.995
+                                              GramBeddings homepage    12587.6   5169.4  0.779   0.757   1.000  1.000                0.763
+                                              GramBeddings deep        83165.4  41268.8  0.617   0.677   0.830  0.900                0.995
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.979    NaN                  NaN
+                                       RF     source test               1953.0   1082.2  0.955   0.961   0.972  0.409                0.248
+                                              PhiUSIIL all            213008.4  79289.8  0.297   0.280   0.960  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.384   0.250   0.994  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.870    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.692   0.616   0.857  0.596                0.804
+                                              GramBeddings homepage    12587.6   5169.4  0.511   0.388   0.983  0.887                0.797
+                                              GramBeddings deep        83165.4  41268.8  0.734   0.710   0.841  0.544                0.798
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.951    NaN                  NaN
+                                       HistGB source test               1953.0   1082.2  0.957   0.968   0.974  0.399                0.236
+                                              PhiUSIIL all            213008.4  79289.8  0.378   0.418   0.958  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.475   0.406   0.996  1.000                1.000
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.858    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.685   0.648   0.850  0.653                0.851
+                                              GramBeddings homepage    12587.6   5169.4  0.456   0.355   0.989  0.962                0.843
+                                              GramBeddings deep        83165.4  41268.8  0.723   0.719   0.833  0.598                0.840
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.951    NaN                  NaN
+                                       MLP    source test               1953.0   1082.2  0.954   0.965   0.972  0.385                0.236
+                                              PhiUSIIL all            213008.4  79289.8  0.621   0.658   0.956  1.000                1.000
+                                              PhiUSIIL homepage       191066.4  57347.8  0.717   0.668   1.000  1.000                0.903
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.842    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.718   0.698   0.832  0.594                0.819
+                                              GramBeddings homepage    12587.6   5169.4  0.674   0.603   0.999  0.998                0.795
+                                              GramBeddings deep        83165.4  41268.8  0.748   0.735   0.811  0.522                0.802
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.953    NaN                  NaN
+                                       NGRAM  source test               1953.0   1082.2  0.967   0.975   0.963  0.237                0.181
+                                              PhiUSIIL all            213008.4  79289.8  0.716   0.632   0.951  0.893                0.890
+                                              PhiUSIIL homepage       191066.4  57347.8  0.732   0.571   0.970  0.893                0.830
+                                              PhiUSIIL deep            21942.0  21942.0    NaN     NaN   0.901    NaN                  NaN
+                                              GramBeddings all         95753.0  46438.2  0.743   0.711   0.834  0.522                0.749
+                                              GramBeddings homepage    12587.6   5169.4  0.654   0.572   0.933  0.861                0.887
+                                              GramBeddings deep        83165.4  41268.8  0.769   0.750   0.822  0.462                0.723
+                                              PhishTank (phish only)   41488.0  41488.0    NaN     NaN   0.955    NaN                  NaN

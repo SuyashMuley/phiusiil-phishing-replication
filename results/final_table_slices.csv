@@ -1,0 +1,17 @@
+trained on,tested on,n (seed mean),AUROC,recall,FPR
+PhiUSIIL/all,GramBeddings homepage,11668,0.80±0.01,0.95±0.01,0.68±0.00
+PhiUSIIL/all,GramBeddings deep,81838,0.75±0.04,0.98±0.01,0.83±0.05
+PhiUSIIL/all,PhreshPhish homepage,19496,0.71±0.03,0.77±0.06,0.51±0.01
+PhiUSIIL/all,PhreshPhish deep,63503,0.76±0.03,0.97±0.01,0.75±0.14
+GramBeddings/all,PhiUSIIL homepage,194602,0.76±0.04,0.38±0.06,0.00±0.00
+GramBeddings/all,PhiUSIIL deep,24706,n/a (one class),0.89±0.02,n/a (phishing only)
+GramBeddings/all,PhreshPhish homepage,23476,0.68±0.03,0.67±0.04,0.41±0.03
+GramBeddings/all,PhreshPhish deep,68605,0.86±0.00,0.85±0.02,0.27±0.03
+GramBeddings/homepage,PhiUSIIL homepage,192726,0.74±0.04,0.34±0.05,0.00±0.00
+GramBeddings/homepage,PhiUSIIL deep,25143,n/a (one class),0.93±0.02,n/a (phishing only)
+GramBeddings/homepage,PhreshPhish homepage,22887,0.61±0.03,0.64±0.05,0.46±0.06
+GramBeddings/homepage,PhreshPhish deep,68662,0.58±0.02,0.94±0.01,0.88±0.03
+PhreshPhish/all,PhiUSIIL homepage,191066,0.60±0.02,0.99±0.00,1.00±0.00
+PhreshPhish/all,PhiUSIIL deep,21942,n/a (one class),0.91±0.04,n/a (phishing only)
+PhreshPhish/all,GramBeddings homepage,12587,0.47±0.05,0.99±0.01,0.94±0.03
+PhreshPhish/all,GramBeddings deep,83165,0.77±0.01,0.94±0.02,0.63±0.07

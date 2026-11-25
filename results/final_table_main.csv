@@ -1,0 +1,13 @@
+trained on,tested on,n (seed mean),AUROC (HistGB),recall (HistGB),FPR (HistGB),oracle FPR@95% (HistGB),"recall range, 5 models","FPR range, 5 models"
+PhiUSIIL,in-source test,1620,1.00±0.00,0.93±0.03,0.00±0.00,0.00,0.93-0.94,0.00-0.00
+PhiUSIIL,GramBeddings,93507,0.76±0.03,0.98±0.01,0.81±0.05,0.72,0.95-0.99,0.66-0.95
+PhiUSIIL,PhreshPhish,83000,0.67±0.04,0.88±0.03,0.73±0.13,0.96,0.80-0.89,0.40-0.97
+GramBeddings,in-source test,1708,0.94±0.01,0.94±0.01,0.29±0.04,0.32,0.93-0.95,0.15-0.47
+GramBeddings,PhiUSIIL,219308,0.83±0.02,0.53±0.04,0.00±0.00,0.84,0.50-0.58,0.00-0.02
+GramBeddings,PhreshPhish,92082,0.80±0.01,0.77±0.03,0.28±0.03,0.70,0.68-0.82,0.18-0.39
+GramBeddings (homepage only),in-source test,1936,0.95±0.02,0.96±0.01,0.30±0.04,0.26,0.95-0.97,0.21-0.33
+GramBeddings (homepage only),PhiUSIIL,217870,0.82±0.02,0.52±0.03,0.00±0.00,0.88,0.52-0.57,0.00-0.01
+GramBeddings (homepage only),PhreshPhish,91550,0.46±0.01,0.81±0.02,0.85±0.02,1.00,0.81-0.85,0.64-0.96
+PhreshPhish,in-source test,1953,0.97±0.01,0.98±0.01,0.28±0.07,0.16,0.96-0.98,0.19-0.54
+PhreshPhish,PhiUSIIL,213008,0.49±0.02,0.97±0.01,1.00±0.00,1.00,0.96-0.98,0.05-1.00
+PhreshPhish,GramBeddings,95753,0.73±0.02,0.94±0.02,0.68±0.06,0.70,0.91-0.95,0.57-0.84

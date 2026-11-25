@@ -1,0 +1,6 @@
+model,cross-source AUROC: canonical,cross-source AUROC: raw,cross-source AUROC: raw_no_scheme_no_www,in-source AUROC: canonical,in-source AUROC: raw,in-source AUROC: raw_no_scheme_no_www
+HistGB,0.667,0.694,0.651,0.908,0.965,0.957
+RF,0.665,0.651,0.607,0.899,0.961,0.953
+LR,0.618,0.693,0.593,0.889,0.949,0.916
+MLP,0.662,0.683,0.623,0.912,0.965,0.935
+NGRAM,0.757,0.819,0.754,0.942,0.977,0.948

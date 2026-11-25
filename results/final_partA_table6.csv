@@ -1,0 +1,13 @@
+profile,cell,"ours, file order","ours, shuffled mean (sd)",paper
+LowSecurity,TP,134846,134847 (1),134849
+LowSecurity,TN,76046,76850 (2776),73259
+LowSecurity,FP,24899,24096 (2776),27686
+LowSecurity,FN,3,2 (1),1
+BestSecurity,TP,134489,134402 (30),134594
+BestSecurity,TN,99737,99382 (47),99406
+BestSecurity,FP,1208,1564 (47),1539
+BestSecurity,FN,360,447 (30),256
+HighSecurity,TP,128490,128184 (145),128768
+HighSecurity,TN,100937,100923 (8),100918
+HighSecurity,FP,8,22 (8),27
+HighSecurity,FN,6359,6665 (145),6082
